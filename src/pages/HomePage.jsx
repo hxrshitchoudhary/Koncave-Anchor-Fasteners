@@ -435,7 +435,7 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
         <div className="container-custom flex items-center justify-between gap-12 flex-wrap">
           <div className="max-w-[680px]">
             <span className="section-pre-title !justify-start"><span></span> DIRECT FACTORY DISPATCH</span>
-            <h2 className="text-white text-[2rem] md:text-[2.8rem] uppercase mb-2">
+            <h2 className="text-black text-[2rem] md:text-[2.8rem] uppercase mb-2">
               Need Bulk Fasteners For Your Next Tender?
             </h2>
             <p className="text-[#94A3B8] text-[1.05rem] m-0">
