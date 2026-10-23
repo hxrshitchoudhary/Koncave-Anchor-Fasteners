@@ -17,56 +17,49 @@ const Navbar = ({ openInquiryModal }) => {
     }`;
 
   const mobileNavLinkClass = ({ isActive }) =>
-    `font-mono text-[1.1rem] font-bold uppercase tracking-[0.8px] transition-colors duration-200 py-3 border-b border-border-subtle block ${
+    `font-mono text-[1.05rem] font-bold uppercase tracking-[0.8px] transition-colors duration-200 py-3.5 border-b border-border-subtle block ${
       isActive ? 'text-accent' : 'text-text-primary'
     }`;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-[1000] bg-white/95 backdrop-blur-md border-b border-border-light shadow-xs">
+    <header className="fixed top-0 left-0 right-0 z-[1000] bg-white/95 backdrop-blur-md border-b border-border-light shadow-xs w-full overflow-hidden">
       
-      {/* Top Utility Bar */}
-      <div className="bg-steel-dark text-white py-1.5 px-5 md:px-8 text-[0.75rem] font-mono border-b border-white/8">
-        <div className="max-w-[1380px] mx-auto flex flex-wrap justify-between items-center gap-3">
-          <div className="flex items-center gap-4 flex-wrap">
+      {/* Top Utility Bar - Hidden on small mobile screens to prevent overflow, visible on sm+ */}
+      <div className="bg-steel-dark text-white py-1.5 px-4 sm:px-8 text-[0.7rem] sm:text-[0.75rem] font-mono border-b border-white/8">
+        <div className="max-w-[1380px] mx-auto flex flex-wrap justify-between items-center gap-2">
+          <div className="flex items-center gap-3 flex-wrap">
             <span className="inline-flex items-center gap-1.5 text-[#CBD5E1]">
-              <span className="w-2 h-2 rounded-full bg-[#22C55E] animate-pulse-dot"></span>
-              ISO 9001:2015 CERTIFIED MANUFACTURER
+              <span className="w-2 h-2 rounded-full bg-[#22C55E] animate-pulse-dot shrink-0"></span>
+              ISO 9001:2015 CERTIFIED
             </span>
-            <span className="hidden sm:inline text-white/20">|</span>
-            <span className="hidden sm:inline text-[#94A3B8]">APPROVED VENDOR: NBCC, CPWD, PWD, RLDA, DMRC</span>
           </div>
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-4">
             <a href={`tel:${companyInfo.phones[0]}`} className="inline-flex items-center gap-1.5 text-white hover:text-accent transition-colors">
-              <IconPhone size={13} className="text-accent" />
+              <IconPhone size={12} className="text-accent shrink-0" />
               <span>{companyInfo.phones[0]}</span>
-            </a>
-            <span className="hidden md:inline text-white/20">|</span>
-            <a href={`mailto:${companyInfo.email}`} className="hidden md:inline-flex items-center gap-1.5 text-white hover:text-accent transition-colors">
-              <IconMail size={13} className="text-accent" />
-              <span>{companyInfo.email}</span>
             </a>
           </div>
         </div>
       </div>
 
       {/* Main Navigation Bar */}
-      <div className="max-w-[1380px] mx-auto px-5 md:px-8 h-[60px] md:h-[68px] flex items-center justify-between">
+      <div className="max-w-[1380px] mx-auto px-4 sm:px-8 h-[60px] md:h-[68px] flex items-center justify-between">
         
         {/* Brand Logo & Text */}
-        <Link to="/" onClick={handleNavClick} className="no-underline flex items-center gap-3 group">
+        <Link to="/" onClick={handleNavClick} className="no-underline flex items-center gap-2.5 sm:gap-3 group min-w-0">
           <img
             src="/logo.svg"
             alt="Koncave"
-            className="h-8 md:h-10 w-auto object-contain"
+            className="h-7 sm:h-9 w-auto object-contain shrink-0"
             onError={(e) => {
               e.target.style.display = 'none';
             }}
           />
-          <div className="flex flex-col">
-            <span className="font-display text-[1.4rem] md:text-[1.7rem] font-black tracking-[0.5px] text-steel-dark uppercase leading-[1] group-hover:text-accent transition-colors">
+          <div className="flex flex-col min-w-0">
+            <span className="font-display text-[1.25rem] sm:text-[1.6rem] font-black tracking-[0.5px] text-steel-dark uppercase leading-[1] group-hover:text-accent transition-colors truncate">
               KONCAVE
             </span>
-            <span className="font-mono text-[0.62rem] md:text-[0.68rem] font-bold tracking-[2.2px] text-accent uppercase">
+            <span className="font-mono text-[0.58rem] sm:text-[0.66rem] font-bold tracking-[1.8px] text-accent uppercase truncate">
               ANCHOR FASTENERS
             </span>
           </div>
@@ -96,7 +89,7 @@ const Navbar = ({ openInquiryModal }) => {
         {/* Mobile Menu Toggle Button */}
         <button
           type="button"
-          className="lg:hidden p-2 text-steel-dark hover:text-accent cursor-pointer"
+          className="lg:hidden p-2 text-steel-dark hover:text-accent cursor-pointer rounded focus:outline-none"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle Mobile Menu"
         >
@@ -107,8 +100,8 @@ const Navbar = ({ openInquiryModal }) => {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden absolute top-full left-0 right-0 bg-white border-b border-border-light shadow-xl p-6 animate-fade-in">
-          <nav className="flex flex-col mb-6">
+        <div className="lg:hidden absolute top-full left-0 right-0 bg-white border-b border-border-light shadow-2xl p-5 sm:p-6 animate-fade-in w-full">
+          <nav className="flex flex-col mb-5">
             <NavLink to="/" onClick={handleNavClick} className={mobileNavLinkClass}>Home</NavLink>
             <NavLink to="/products" onClick={handleNavClick} className={mobileNavLinkClass}>Product Range</NavLink>
             <NavLink to="/applications" onClick={handleNavClick} className={mobileNavLinkClass}>Applications</NavLink>
@@ -121,7 +114,7 @@ const Navbar = ({ openInquiryModal }) => {
               setMobileMenuOpen(false);
               openInquiryModal();
             }}
-            className="btn btn-primary w-full justify-center"
+            className="btn btn-primary w-full justify-center py-3 text-[0.9rem]"
           >
             Request Bulk Inquiry
           </button>
