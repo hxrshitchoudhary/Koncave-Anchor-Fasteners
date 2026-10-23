@@ -1,37 +1,38 @@
 export const companyInfo = {
-  name: "KONCAVE",
-  legalName: "KONCAVE ANCHOR FASTENERS PVT LTD.",
-  tagline: "HIGH-PERFORMANCE ANCHORING & FASTENING SOLUTIONS",
-  certifications: "ISO 9001:2015 CERTIFIED",
+  name: "Koncave",
+  legalName: "Koncave Anchor Fasteners Pvt. Ltd.",
+  tagline: "High-Performance Anchoring and Fastening Solutions",
   address: "Village Ismaila, 11B Ismaila, Near Rana Batta, Tehsil Sampla, Rohtak, Haryana-124501, India",
-  phones: ["+91 9175075896", "+91 98103 95559"],
-  email: "Koncave11@outlook.com", 
-  website: "www.koncave.co.in",
-  approvals: ["NBCC", "CPWD", "PWD", "RLDA", "DMRC"],
-  initiative: "MAKE IN INDIA"
+  phones: ["9810395559", "9310784762"],
+  email: "koncave11@outlook.com",
+  website: "koncavefasteners.com",
+  initiative: "Make in India",
+  certifications: "ISO 9001:2015 Certified",
+  approvals: ["NBCC", "CPWD", "PWD", "RLDA", "DMRC"]
 };
 
 export const aboutUsData = {
   hero: {
-    title: "Engineering Integrity.",
-    subtitle: "Precision engineering, uncompromising safety, and a proud contributor to the Make in India initiative."
+    subtitle: "KONCAVE ANCHOR FASTENERS PVT. LTD. is an ISO 9001:2015 certified manufacturer and a dedicated participant in the 'Make in India' initiative, specializing in high-performance anchoring and fastening solutions."
   },
-  intro: "KONCAVE ANCHOR FASTENERS PVT LTD. is an ISO 9001:2015 certified manufacturer and a dedicated participant in the 'Make in India' initiative, specializing in high-performance anchoring and fastening solutions. We are committed to delivering precision, structural safety, and long-term reliability across architectural and industrial applications.",
-  vision: "To be the leading global provider of high-tensile structural fastening solutions, recognized universally for uncompromising safety, innovative engineering, and absolute reliability.",
-  mission: "To engineer and manufacture top-tier anchoring systems through advanced technology, stringent quality control, and a commitment to the 'Make in India' initiative, ensuring the structural integrity of the world's most demanding projects.",
+  intro: "We are committed to delivering precision, structural safety, and long-term reliability across architectural and industrial applications.",
+  vision: "To be India's most trusted benchmark in high-tensile structural anchoring, driving 'Make in India' excellence across global infrastructure.",
+  mission: "To deliver zero-slippage anchoring solutions backed by rigorous NABL and IS 1608 quality standards, ensuring absolute safety for critical projects.",
   values: [
-    { icon: "shield", title: "Uncompromising Safety", desc: "Every anchor is rigorously tested for tensile and pull-out strength (under IS1608, P1:2022) to ensure maximum safety in the field." },
-    { icon: "factory", title: "Specialized Manufacturing", desc: "Our facility is equipped with specialized machinery including advanced threading and dedicated manufacturing lines for consistent high-accuracy components." },
-    { icon: "award", title: "Proven Quality", desc: "Trusted partner approved by major authorities including NBCC, CPWD, PWD, RLDA, and DMRC." }
-  ],
-  sections: [
     {
-      title: "Specialized Manufacturing",
-      text: "Our facility is equipped with specialized machinery dedicated to the production of high-quality anchors, including advanced threading and dedicated manufacturing lines for wedge, nylon, and drop-in anchors. This focused infrastructure allows us to deliver high-accuracy components with consistency."
+      title: "Rigorous Metallurgy",
+      desc: "Supplying certified Stainless Steel A2/A4 and high-grade Carbon Steel with precise chemical compositions.",
+      icon: "shield"
     },
     {
-      title: "High-Performance Product Range",
-      text: "We design and manufacture an expanding portfolio of anchors tailored for diverse structural needs, ensuring we have the exact specification required for heavy-duty structural steel, facade framing, and industrial machinery mounting."
+      title: "Specialized Infrastructure",
+      desc: "Advanced threading, cutting, and dedicated manufacturing lines for wedge, nylon, and drop-in anchors.",
+      icon: "factory"
+    },
+    {
+      title: "Proven Reliability",
+      desc: "Extensive tensile and pull-out strength testing under IS1608, P1:2022 standards approved by major authorities.",
+      icon: "award"
     }
   ]
 };
@@ -40,117 +41,92 @@ export const products = [
   {
     id: "wedge-anchors",
     name: "1. Wedge Anchors",
-    category: "Heavy Duty Anchors",
+    category: "Heavy-Duty Structural Anchors",
+    description: "High-performance heavy-duty wedge anchors designed for uncracked concrete, structural steel, cable trays, and machinery mounting.",
+    materials: ["Stainless Steel A2 (304)", "Stainless Steel A4 (316)", "Carbon Steel Galvanized (4.8, 5.8)"],
     image: "/images/product-wedge.jpg",
-    appReferenceImage: "/images/app-wedge.jpg", 
-    description: "High-performance anchoring solutions tailored for diverse structural needs. Undergoes extensive testing for tensile and pull-out strength (under IS1608, P1:2022).",
-    applications: ["Steel constructions", "Cable trays", "Façades", "Guard rails", "Consoles", "Ladders", "Machines", "Staircases", "Gates"],
-    materials: ["Stainless Steel A2 (304 grade)", "Stainless Steel A4 (316 grade)", "Carbon Steel Galvanized (4.8, 5.8 grade)"],
+    appReferenceImage: "/images/app-wedge.jpg",
+    applications: [
+      "Steel constructions",
+      "Cable trays",
+      "Façades",
+      "Guard rails",
+      "Consoles",
+      "Ladders",
+      "Machines",
+      "Staircases",
+      "Gates"
+    ],
     sections: [
       {
-        title: "1.1. Variants / Size Range S.S. A2",
+        title: "Stainless Steel A2 (304 Grade) — Variants & Sizes",
+        subtitle: "Composition: 8% Nickel, 18% Chromium | Tested under IS 1608, P1:2022",
         type: "variant",
-        headers: ["ARTICLE NO.", "DRILL DIAMETER", "ANCHOR LENGTH", "EMBEDDED LENGTH"],
+        headers: ["Article No.", "Drill Diameter", "Anchor Length", "Embedded Length"],
         rows: [
-          { article: "KWA0875SA2", drill: "8 (mm)", length: "75 (mm)", embed: "70 (mm)" },
-          { article: "KWA0890SA2", drill: "8 (mm)", length: "90 (mm)", embed: "85 (mm)" },
-          { article: "KWA1075SA2", drill: "10 (mm)", length: "75 (mm)", embed: "67 (mm)" },
-          { article: "KWA10100SA2", drill: "10 (mm)", length: "100 (mm)", embed: "92 (mm)" },
-          { article: "KWA10120SA2", drill: "10 (mm)", length: "120 (mm)", embed: "112 (mm)" },
-          { article: "KWA10150SA2", drill: "10 (mm)", length: "150 (mm)", embed: "142 (mm)" },
-          { article: "KWA12100SA2", drill: "12 (mm)", length: "100 (mm)", embed: "89 (mm)" },
-          { article: "KWA12120SA2", drill: "12 (mm)", length: "120 (mm)", embed: "109 (mm)" },
-          { article: "KWA12150SA2", drill: "12 (mm)", length: "150 (mm)", embed: "139 (mm)" }
+          { article: "KWA0875SA2", drill: "8 mm", length: "75 mm", embed: "70 mm" },
+          { article: "KWA0890SA2", drill: "8 mm", length: "90 mm", embed: "85 mm" },
+          { article: "KWA1075SA2", drill: "10 mm", length: "75 mm", embed: "67 mm" },
+          { article: "KWA10100SA2", drill: "10 mm", length: "100 mm", embed: "92 mm" },
+          { article: "KWA10120SA2", drill: "10 mm", length: "120 mm", embed: "112 mm" },
+          { article: "KWA10150SA2", drill: "10 mm", length: "150 mm", embed: "142 mm" },
+          { article: "KWA12100SA2", drill: "12 mm", length: "100 mm", embed: "89 mm" },
+          { article: "KWA12120SA2", drill: "12 mm", length: "120 mm", embed: "109 mm" },
+          { article: "KWA12150SA2", drill: "12 mm", length: "150 mm", embed: "139 mm" }
         ]
       },
       {
-        title: "1.2. Variants / Size Range S.S. A4",
+        title: "Stainless Steel A4 (316 Grade) — Variants & Sizes",
+        subtitle: "Composition: 10% Nickel, 18-20% Chromium, 2-3% Molybdenum",
         type: "variant",
-        headers: ["ARTICLE NO.", "DRILL DIAMETER", "ANCHOR LENGTH", "EMBEDDED LENGTH"],
+        headers: ["Article No.", "Drill Diameter", "Anchor Length", "Embedded Length"],
         rows: [
-          { article: "KWA0875SA4", drill: "8 (mm)", length: "75 (mm)", embed: "70 (mm)" },
-          { article: "KWA0890SA4", drill: "8 (mm)", length: "90 (mm)", embed: "85 (mm)" },
-          { article: "KWA1075SA4", drill: "10 (mm)", length: "75 (mm)", embed: "67 (mm)" },
-          { article: "KWA10100SA4", drill: "10 (mm)", length: "100 (mm)", embed: "92 (mm)" },
-          { article: "KWA10120SA4", drill: "10 (mm)", length: "120 (mm)", embed: "112 (mm)" },
-          { article: "KWA10150SA4", drill: "10 (mm)", length: "150 (mm)", embed: "142 (mm)" },
-          { article: "KWA12100SA4", drill: "12 (mm)", length: "100 (mm)", embed: "89 (mm)" },
-          { article: "KWA12120SA4", drill: "12 (mm)", length: "120 (mm)", embed: "109 (mm)" },
-          { article: "KWA12150SA4", drill: "12 (mm)", length: "150 (mm)", embed: "139 (mm)" }
+          { article: "KWA0875SA4", drill: "8 mm", length: "75 mm", embed: "70 mm" },
+          { article: "KWA0890SA4", drill: "8 mm", length: "90 mm", embed: "85 mm" },
+          { article: "KWA1075SA4", drill: "10 mm", length: "75 mm", embed: "67 mm" },
+          { article: "KWA10100SA4", drill: "10 mm", length: "100 mm", embed: "92 mm" },
+          { article: "KWA10120SA4", drill: "10 mm", length: "120 mm", embed: "112 mm" },
+          { article: "KWA10150SA4", drill: "10 mm", length: "150 mm", embed: "142 mm" },
+          { article: "KWA12100SA4", drill: "12 mm", length: "100 mm", embed: "89 mm" },
+          { article: "KWA12120SA4", drill: "12 mm", length: "120 mm", embed: "109 mm" },
+          { article: "KWA12150SA4", drill: "12 mm", length: "150 mm", embed: "139 mm" }
         ]
       },
       {
-        title: "1.3. Technical Data (Stainless Steel)",
-        type: "tech",
-        rows: [
-          { label: "Grade (A2)", value: "A2-304 Grade (8% Nickel, 18% Chromium)" },
-          { label: "Finish (A2)", value: "S.S. Finish" },
-          { label: "Grade (A4)", value: "A4-316 Grade (10% Nickel, 18-20% Chromium)" },
-          { label: "Finish (A4)", value: "S.S. Finish" }
-        ]
-      },
-      {
-        title: "1.4. Test Reports - S.S. A2 (304 GRADE)",
-        subtitle: "TEST NAME: PULL OUT / TENSILE | TEST METHOD: IS1608, P1:2022",
-        type: "report",
-        headers: ["SIZE", "PULL OUT LOAD (KG)", "TENSILE STRENGTH (N/mm²)"],
-        rows: [
-          ["M8", "38560", "680"],
-          ["M10", "42866", "732"],
-          ["M12", "72084", "815"]
-        ]
-      },
-      {
-        title: "1.5. Test Reports - S.S. A4 (316 GRADE)",
-        subtitle: "TEST NAME: PULL OUT / TENSILE | TEST METHOD: IS1608, P1:2022",
-        type: "report",
-        headers: ["SIZE", "PULL OUT LOAD (KG)", "TENSILE STRENGTH (N/mm²)"],
-        rows: [
-          ["M8", "38570", "695"],
-          ["M10", "42879", "760"],
-          ["M12", "72095", "845"]
-        ]
-      },
-      {
-        title: "1.6. Variants / Size Range G.I.",
+        title: "Carbon Steel Galvanized (G.I.) — Variants & Sizes",
+        subtitle: "Grades 4.8 / 5.8 | Alkaline Zinc Plated (European Standard)",
         type: "variant",
-        headers: ["ARTICLE NO.", "DRILL DIAMETER", "ANCHOR LENGTH", "EMBEDDED LENGTH"],
+        headers: ["Article No.", "Drill Diameter", "Anchor Length", "Embedded Length"],
         rows: [
-          { article: "KWA0875GI", drill: "8 (mm)", length: "75 (mm)", embed: "70 (mm)" },
-          { article: "KWA0890GI", drill: "8 (mm)", length: "90 (mm)", embed: "85 (mm)" },
-          { article: "KWA1075GI", drill: "10 (mm)", length: "75 (mm)", embed: "67 (mm)" },
-          { article: "KWA10100GI", drill: "10 (mm)", length: "100 (mm)", embed: "92 (mm)" },
-          { article: "KWA10120GI", drill: "10 (mm)", length: "120 (mm)", embed: "112 (mm)" },
-          { article: "KWA10150GI", drill: "10 (mm)", length: "150 (mm)", embed: "142 (mm)" },
-          { article: "KWA12100GI", drill: "12 (mm)", length: "100 (mm)", embed: "89 (mm)" },
-          { article: "KWA12120GI", drill: "12 (mm)", length: "120 (mm)", embed: "109 (mm)" },
-          { article: "KWA12150GI", drill: "12 (mm)", length: "150 (mm)", embed: "139 (mm)" },
-          { article: "KWA16100GI", drill: "16 (mm)", length: "100 (mm)", embed: "85 (mm)" },
-          { article: "KWA16125GI", drill: "16 (mm)", length: "125 (mm)", embed: "110 (mm)" },
-          { article: "KWA16150GI", drill: "16 (mm)", length: "150 (mm)", embed: "135 (mm)" },
-          { article: "KWA16200GI", drill: "16 (mm)", length: "200 (mm)", embed: "185 (mm)" },
-          { article: "KWA16250GI", drill: "16 (mm)", length: "250 (mm)", embed: "235 (mm)" }
+          { article: "KWA0875GI", drill: "8 mm", length: "75 mm", embed: "70 mm" },
+          { article: "KWA0890GI", drill: "8 mm", length: "90 mm", embed: "85 mm" },
+          { article: "KWA1075GI", drill: "10 mm", length: "75 mm", embed: "67 mm" },
+          { article: "KWA10100GI", drill: "10 mm", length: "100 mm", embed: "92 mm" },
+          { article: "KWA10120GI", drill: "10 mm", length: "120 mm", embed: "112 mm" },
+          { article: "KWA10150GI", drill: "10 mm", length: "150 mm", embed: "142 mm" },
+          { article: "KWA12100GI", drill: "12 mm", length: "100 mm", embed: "89 mm" },
+          { article: "KWA12120GI", drill: "12 mm", length: "120 mm", embed: "109 mm" },
+          { article: "KWA12150GI", drill: "12 mm", length: "150 mm", embed: "139 mm" },
+          { article: "KWA16100GI", drill: "16 mm", length: "100 mm", embed: "85 mm" },
+          { article: "KWA16125GI", drill: "16 mm", length: "125 mm", embed: "110 mm" },
+          { article: "KWA16150GI", drill: "16 mm", length: "150 mm", embed: "135 mm" },
+          { article: "KWA16200GI", drill: "16 mm", length: "200 mm", embed: "185 mm" },
+          { article: "KWA16250GI", drill: "16 mm", length: "250 mm", embed: "235 mm" }
         ]
       },
       {
-        title: "1.7. Technical Data (Galvanized Iron)",
-        type: "tech",
-        rows: [
-          { label: "Type of Assembly", value: "Through - setting, Pre-setting installation, standoff installation." },
-          { label: "Grade", value: "4.8, 5.8 grade" },
-          { label: "Finish", value: "Alkaline Plating (European Standard)" }
-        ]
-      },
-      {
-        title: "1.8. Test Reports - GALVANIZED IRON",
-        subtitle: "TEST NAME: PULL OUT / TENSILE | TEST METHOD: IS1608, P1:2022",
+        title: "Laboratory Test Reports & Ratings (IS 1608, P1:2022)",
+        subtitle: "Verified Pull-Out and Tensile Load Metrics",
         type: "report",
-        headers: ["SIZE", "TENSILE STRENGTH (N/mm²)", "SHEAR STRENGTH (N/mm²)", "DOUBLE SHEAR (KN)"],
+        headers: ["Size", "Pull-Out Load (KG)", "Tensile Strength (N/mm²)", "Double Shear (kN)"],
         rows: [
-          ["M8", "545.08", "299.75", "23.54"],
-          ["M10", "570.24", "303.79", "23.86"],
-          ["M12", "597.11", "346.26", "27.60"],
-          ["M16", "632.63", "564.81", "84.48"]
+          ["M8 (A2)", "38,560 kg", "680 N/mm²", "23.54 kN"],
+          ["M10 (A2)", "42,866 kg", "732 N/mm²", "23.86 kN"],
+          ["M12 (A2)", "72,084 kg", "815 N/mm²", "27.60 kN"],
+          ["M8 (A4)", "38,570 kg", "695 N/mm²", "—"],
+          ["M10 (A4)", "42,879 kg", "760 N/mm²", "—"],
+          ["M12 (A4)", "72,095 kg", "845 N/mm²", "—"],
+          ["M16 (G.I.)", "—", "632.63 N/mm²", "84.48 kN"]
         ]
       }
     ]
@@ -158,174 +134,107 @@ export const products = [
   {
     id: "nylon-csk",
     name: "2. Red Sleeve Nylon Anchor (Counter Sunk)",
-    category: "Facade Anchors",
+    category: "Facade & Frame Anchors",
+    description: "Designed for speed and ease of use in structural and non-structural applications, ideal for ventilated façades, handrails, and door/window frames.",
+    materials: ["Stainless Steel A2 (304)", "Carbon Steel Galvanized (4.8, 5.8)"],
     image: "/images/product-nylon-csk.jpg",
-    appReferenceImage: "/images/app-nylon-csk.jpg", 
-    description: "Perfectly designed for installing rainscreen and ventilated façades, metal work like handrails and balustrades, and fastening door and window frames. Designed for speed and ease of use in structural and non-structural applications.",
-    applications: ["Rainscreen facades", "Ventilated facades", "Handrails", "Balustrades", "Door frames", "Window frames"],
-    materials: ["Stainless Steel A2 (304 grade)", "Carbon steel Galvanized (4.8, 5.8 grade)"],
+    appReferenceImage: "/images/app-nylon-csk.jpg",
+    applications: [
+      "Rainscreen and ventilated façades",
+      "Metal work, handrails, and balustrades",
+      "Fastening door and window frames"
+    ],
     sections: [
       {
-        title: "2.1. Variants / Size Range [ S.S. A2 ]",
-        subtitle: "*Embedded length depends on length of fixture",
+        title: "Stainless Steel A2 & G.I. — Counter Sunk Sizes",
+        subtitle: "Drill Diameter: 10 mm | Embedded length depends on fixture length",
         type: "variant",
-        headers: ["ARTICLE NO.", "DRILL DIAMETER", "ANCHOR LENGTH"],
+        headers: ["Article No. (A2)", "Article No. (G.I.)", "Drill Diameter", "Anchor Length"],
         rows: [
-          { article: "KNA80CSKSA2", drill: "10 (MM)", length: "80 (MM)" },
-          { article: "KNA100CSKSA2", drill: "10 (MM)", length: "100 (MM)" },
-          { article: "KNA120CSKSA2", drill: "10 (MM)", length: "120 (MM)" },
-          { article: "KNA140CSKSA2", drill: "10 (MM)", length: "140 (MM)" }
+          { article: "KNA80CSKSA2", drill: "KNA80CSKGI", length: "10 mm", embed: "80 mm" },
+          { article: "KNA100CSKSA2", drill: "KNA100CSKGI", length: "10 mm", embed: "100 mm" },
+          { article: "KNA120CSKSA2", drill: "KNA120CSKGI", length: "10 mm", embed: "120 mm" },
+          { article: "KNA140CSKSA2", drill: "KNA140CSKGI", length: "10 mm", embed: "140 mm" }
         ]
       },
       {
-        title: "2.2. Technical Data (S.S. A2)",
-        type: "tech",
-        rows: [
-          { label: "Type of Assembly", value: "Through - setting, Pre- setting installation, standoff installation." },
-          { label: "Grade", value: "304 grade" },
-          { label: "Finish", value: "S.S. FINISH" }
-        ]
-      },
-      {
-        title: "2.3. Test Reports (S.S. A2)",
+        title: "Laboratory Resistance Ratings",
+        subtitle: "Tested under rigorous tension and shear parameters",
         type: "report",
-        headers: ["SIZE", "TENSION RESISTANCE (KN)", "SHEER RESISTANCE (KN)"],
+        headers: ["Size / Material", "Tension Resistance (kN)", "Shear Resistance (kN)"],
         rows: [
-          ["M10", "18.4", "11.1"]
-        ]
-      },
-      {
-        title: "2.4. Variants / Size Range [ G.I. ]",
-        subtitle: "*Embedded length depends on length of fixture",
-        type: "variant",
-        headers: ["ARTICLE NO.", "DRILL DIAMETER", "ANCHOR LENGTH"],
-        rows: [
-          { article: "KNA80CSKGI", drill: "10 (MM)", length: "80 (MM)" },
-          { article: "KNA100CSKGI", drill: "10 (MM)", length: "100 (MM)" },
-          { article: "KNA120CSKGI", drill: "10 (MM)", length: "120 (MM)" },
-          { article: "KNA140CSKGI", drill: "10 (MM)", length: "140 (MM)" }
-        ]
-      },
-      {
-        title: "2.5. Technical Data (G.I.)",
-        type: "tech",
-        rows: [
-          { label: "Type of Assembly", value: "Through - setting, Pre- setting installation, standoff installation." },
-          { label: "Grade", value: "4.8, 5.8 grade" },
-          { label: "Finish", value: "Alkaline Plating (European Standard)" }
-        ]
-      },
-      {
-        title: "2.6. Test Reports (G.I.)",
-        type: "report",
-        headers: ["SIZE", "TENSION RESISTANCE (KN)", "SHEAR RESISTANCE (KN)"],
-        rows: [
-          ["M10", "17.5", "10.6"]
+          ["M10 (Stainless Steel A2)", "18.4 kN", "11.1 kN"],
+          ["M10 (Carbon Steel G.I.)", "17.5 kN", "10.6 kN"]
         ]
       }
     ]
   },
   {
     id: "nylon-hex",
-    name: "3. Red Sleeve Nylon Anchor (Hex Flange)",
-    category: "Facade Anchors",
+    name: "3. Red Sleeve Nylon Anchor (Hex Flange Head)",
+    category: "Facade & Frame Anchors",
+    description: "Hex flange head frame anchors offering superior clamping force for heavy fixtures, balustrades, and structural brackets.",
+    materials: ["Stainless Steel A2 (304)", "Carbon Steel Galvanized (4.8, 5.8)"],
     image: "/images/product-nylon-hex.jpg",
-    appReferenceImage: "/images/app-nylon-hex.jpg", 
-    description: "Designed for speed and ease of use in structural and non-structural applications. Key uses include installing rainscreen, metal work, and fastening frames.",
-    applications: ["Rainscreen facades", "Ventilated facades", "Handrails", "Balustrades", "Door frames", "Window frames"],
-    materials: ["Stainless Steel A2 (304 grade)", "Carbon steel Galvanized (4.8, 5.8 grade)"],
+    appReferenceImage: "/images/app-nylon-hex.jpg",
+    applications: [
+      "Ventilated façades",
+      "Balustrades and handrails",
+      "Structural timber and steel brackets"
+    ],
     sections: [
       {
-        title: "3.1. Variants / Size Range [ S.S. A2 ]",
-        subtitle: "*Embedded length depends on length of fixture",
+        title: "Stainless Steel A2 & G.I. — Hex Flange Sizes",
+        subtitle: "Drill Diameter: 10 mm",
         type: "variant",
-        headers: ["ARTICLE NO.", "DRILL DIAMETER", "ANCHOR LENGTH"],
+        headers: ["Article No. (A2)", "Article No. (G.I.)", "Drill Diameter", "Anchor Length"],
         rows: [
-          { article: "KNA80FSA2", drill: "10 (MM)", length: "80 (MM)" },
-          { article: "KNA100FSA2", drill: "10 (MM)", length: "100 (MM)" },
-          { article: "KNA120FSA2", drill: "10 (MM)", length: "120 (MM)" }
+          { article: "KNA80FSA2", drill: "KNA80FGI", length: "10 mm", embed: "80 mm" },
+          { article: "KNA100FSA2", drill: "KNA100FGI", length: "10 mm", embed: "100 mm" },
+          { article: "KNA120FSA2", drill: "KNA120FGI", length: "10 mm", embed: "120 mm" }
         ]
       },
       {
-        title: "3.2. Technical Data (S.S. A2)",
-        type: "tech",
-        rows: [
-          { label: "Type of Assembly", value: "Through - setting, Pre-setting installation, standoff installation." },
-          { label: "Grade", value: "304 grade" },
-          { label: "Finish", value: "S.S. FINISH" }
-        ]
-      },
-      {
-        title: "3.3. Test Reports (S.S. A2)",
+        title: "Laboratory Resistance Ratings",
+        subtitle: "Tested under tension and shear",
         type: "report",
-        headers: ["SIZE", "TENSION RESISTANCE (KN)", "SHEAR RESISTANCE (KN)"],
+        headers: ["Size / Material", "Tension Resistance (kN)", "Shear Resistance (kN)"],
         rows: [
-          ["M10", "18.4", "11.1"]
-        ]
-      },
-      {
-        title: "3.4. Variants / Size Range [ G.I. ]",
-        subtitle: "*Embedded length depends on length of fixture",
-        type: "variant",
-        headers: ["ARTICLE NO.", "DRILL DIAMETER", "ANCHOR LENGTH"],
-        rows: [
-          { article: "KNA80FGI", drill: "10 (MM)", length: "80 (MM)" },
-          { article: "KNA100FGI", drill: "10 (MM)", length: "100 (MM)" },
-          { article: "KNA120FGI", drill: "10 (MM)", length: "120 (MM)" }
-        ]
-      },
-      {
-        title: "3.5. Technical Data (G.I.)",
-        type: "tech",
-        rows: [
-          { label: "Type of Assembly", value: "Through - setting, Pre-setting installation, standoff installation." },
-          { label: "Grade", value: "4.8, 5.8 grade" },
-          { label: "Finish", value: "Alkaline Plating (European Standard)" }
-        ]
-      },
-      {
-        title: "3.6. Test Reports (G.I.)",
-        type: "report",
-        headers: ["SIZE", "TENSION RESISTANCE (KN)", "SHEAR RESISTANCE (KN)"],
-        rows: [
-          ["M10", "17.5", "10.6"]
+          ["M10 (Stainless Steel A2)", "18.4 kN", "11.1 kN"],
+          ["M10 (Carbon Steel G.I.)", "17.5 kN", "10.6 kN"]
         ]
       }
     ]
   },
   {
     id: "drop-in",
-    name: "4. Drop - In Anchor",
-    category: "Flush Anchors",
+    name: "4. Drop-In Anchor",
+    category: "Flush-Mount Concrete Anchors",
+    description: "Designed to create strong, flush-mounted fastening points in solid concrete for suspending pipes, HVAC systems, and electrical trays.",
+    materials: ["Carbon Steel Galvanized (4.8, 5.8)"],
     image: "/images/product-drop-in.jpg",
-    appReferenceImage: "/images/app-drop-in.jpg", 
-    description: "Used to create strong, flush-mounted fastening points in solid concrete. They are commonly applied for fixing threaded rods, bolts, or machinery where a clean surface finish is required. Especially suitable for applications requiring high load capacity and precise alignment.",
-    applications: ["Suspending pipes", "HVAC systems", "Electrical trays", "Mounting heavy equipment"],
-    materials: ["Carbon steel Galvanized (4.8, 5.8 grade)"],
+    appReferenceImage: "/images/app-drop-in.jpg",
+    applications: [
+      "Suspension of HVAC ducts and piping",
+      "Electrical cable trays",
+      "Machinery and threaded rod mounting"
+    ],
     sections: [
       {
-        title: "4.1. Variants / Size Range [ GI ]",
+        title: "Carbon Steel Galvanized — Drop-In Variants",
+        subtitle: "Alkaline Zinc Plated (European Standard)",
         type: "variant",
-        headers: ["ARTICLE NO.", "DRILL DIAMETER", "ANCHOR LENGTH", "EMBEDDED LENGTH"],
+        headers: ["Article No.", "Drill Diameter", "Anchor Length", "Embedded Length"],
         rows: [
-          { article: "KDIA0625", drill: "6 (MM)", length: "25 (MM)", embed: "25 (MM)" },
-          { article: "KDIA0830", drill: "8 (MM)", length: "30 (MM)", embed: "30 (MM)" },
-          { article: "KDIA0840", drill: "8 (MM)", length: "40 (MM)", embed: "40 (MM)" },
-          { article: "KDIA1025", drill: "10 (MM)", length: "25 (MM)", embed: "25 (MM)" },
-          { article: "KDIA1030", drill: "10 (MM)", length: "30 (MM)", embed: "30 (MM)" },
-          { article: "KDIA1040", drill: "10 (MM)", length: "40 (MM)", embed: "40 (MM)" },
-          { article: "KDIA1225", drill: "12 (MM)", length: "25 (MM)", embed: "25 (MM)" },
-          { article: "KDIA1250", drill: "12 (MM)", length: "50 (MM)", embed: "50 (MM)" },
-          { article: "KDIA1665", drill: "16 (MM)", length: "65 (MM)", embed: "65 (MM)" }
-        ]
-      },
-      {
-        title: "4.2. Technical Data",
-        type: "tech",
-        rows: [
-          { label: "Type of Assembly", value: "Through - setting, Pre- setting installation, standoff installation." },
-          { label: "Grade", value: "4.8, 5.8 grade" },
-          { label: "Finish", value: "Alkaline Plating (European Standard)" }
+          { article: "KDIA0625", drill: "6 mm", length: "25 mm", embed: "25 mm" },
+          { article: "KDIA0830", drill: "8 mm", length: "30 mm", embed: "30 mm" },
+          { article: "KDIA0840", drill: "8 mm", length: "40 mm", embed: "40 mm" },
+          { article: "KDIA1025", drill: "10 mm", length: "25 mm", embed: "25 mm" },
+          { article: "KDIA1030", drill: "10 mm", length: "30 mm", embed: "30 mm" },
+          { article: "KDIA1040", drill: "10 mm", length: "40 mm", embed: "40 mm" },
+          { article: "KDIA1225", drill: "12 mm", length: "25 mm", embed: "25 mm" },
+          { article: "KDIA1250", drill: "12 mm", length: "50 mm", embed: "50 mm" },
+          { article: "KDIA1665", drill: "12 mm", length: "65 mm", embed: "65 mm" }
         ]
       }
     ]
