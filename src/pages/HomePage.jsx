@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { aboutUsData, products } from '../data.js';
 import {
@@ -12,12 +12,14 @@ import {
 
 const HomePage = ({ openQuoteModal, openInquiryModal }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [videoVisible, setVideoVisible] = useState(false);
+  const videoRef = useRef(null);
 
   const heroSlides = [
     {
       url: "/images/app-wedge.jpg",
       caption: "HEAVY-DUTY STRUCTURAL STEEL ANCHORING",
-      shortTitle: "Structural Ste.",
+      shortTitle: "Structural",
       sector: "BRIDGES & HIGH-RISE CORES",
       peakLoad: "72,084 KG",
       recommended: "Wedge Anchor Series (SS 304 / A2)"
@@ -25,7 +27,7 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
     {
       url: "/images/app-nylon-csk.jpg",
       caption: "VENTILATED FACADES & ARCHITECTURAL CLADDING",
-      shortTitle: "Facade Systems",
+      shortTitle: "Facades",
       sector: "CURTAIN WALLS & GLAZING",
       peakLoad: "18.4 kN",
       recommended: "Nylon Frame & CSK Anchors"
@@ -33,7 +35,7 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
     {
       url: "/images/app-nylon-hex.jpg",
       caption: "METRO, RAILWAY & INFRASTRUCTURE TUNNELING",
-      shortTitle: "Metro & Tunnels",
+      shortTitle: "Metro/Rail",
       sector: "DMRC / RLDA VIADUCTS",
       peakLoad: "84.48 kN",
       recommended: "Heavy-Duty Throughbolt M16"
@@ -42,6 +44,7 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
       url: "/images/app-drop-in.jpg",
       caption: "INDUSTRIAL MACHINERY & HVAC SUSPENSION",
       shortTitle: "MEP & HVAC",
+      sector: "INDUSTRIAL PLANTS",
       peakLoad: "42.8 kN",
       recommended: "Flush Drop-In Anchor Series"
     }
@@ -52,7 +55,7 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
     "STAINLESS STEEL A2 (304) & A4 (316)",
     "ALKALINE ZINC PLATED (EUROPEAN STANDARD)",
     "NBCC / CPWD / PWD / RLDA / DMRC APPROVED",
-    "ISO 9001:2015 CERTIFIED MUNDKA FACILITY",
+    "ISO 9001:2015 CERTIFIED FACILITY",
     "HIGH-LOAD WEDGE, NYLON & DROP-IN ANCHORS"
   ];
 
@@ -86,6 +89,53 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
     { label: "Dimensional Tolerance", value: "±0.02 mm Precision", desc: "Manufactured using multi-axis CNC cold heading and threading machinery." }
   ];
 
+  // PC/Laptop starts at 0s, Mobile devices start at 6th second
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+
+    const isMobile = window.innerWidth < 1024;
+    const startTime = isMobile ? 6 : 0;
+
+    const handleLoadedMetadata = () => {
+      try {
+        video.currentTime = startTime;
+      } catch (e) {
+        // Fallback
+      }
+    };
+
+    video.addEventListener('loadedmetadata', handleLoadedMetadata);
+
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          video.currentTime = startTime;
+          setVideoVisible(true);
+        })
+        .catch(() => {
+          setVideoVisible(true);
+          const playOnTouch = () => {
+            video.currentTime = startTime;
+            video.play();
+            window.removeEventListener('touchstart', playOnTouch);
+          };
+          window.addEventListener('touchstart', playOnTouch, { once: true });
+        });
+    } else {
+      setVideoVisible(true);
+    }
+
+    return () => {
+      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+    };
+  }, []);
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
@@ -95,30 +145,31 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
 
   return (
     <div className="w-full overflow-x-hidden">
-      {/* MOBILE-OPTIMIZED HERO SECTION */}
-      <div className="mt-[56px] md:mt-[64px] min-h-[calc(100vh-56px)] md:min-h-[calc(100vh-64px)] flex flex-col justify-between bg-[#04060A] relative overflow-hidden">
+      {/* HERO SECTION */}
+      <div className="mt-[88px] md:mt-[100px] min-h-[calc(100vh-88px)] lg:h-[calc(100vh-100px)] flex flex-col justify-between bg-[#04060A] relative overflow-hidden">
         
-        {/* Background Video */}
-        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none transform-gpu animate-black-to-video">
+        {/* Background Video Container */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none bg-[#04060A]">
           <video
-            autoPlay
+            ref={videoRef}
+            src="/hero-section/video.mp4"
             loop
             muted
             playsInline
             preload="auto"
-            className="w-full h-full object-cover brightness-95 will-change-transform"
-          >
-            <source src="/hero-section/video.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-          <div className="absolute inset-0 bg-gradient-to-r from-[#04060A]/95 via-[#04060A]/85 to-[#04060A]/60"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-[#04060A] via-transparent to-[#04060A]/60"></div>
-          <div className="absolute inset-0 blueprint-grid opacity-10"></div>
+            className={`w-full h-full object-cover object-center brightness-95 transition-opacity duration-1000 ease-out ${
+              videoVisible ? 'opacity-65' : 'opacity-0'
+            }`}
+          />
+          {/* Gradient Overlays for readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#04060A]/92 via-[#04060A]/75 to-[#04060A]/55"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#04060A] via-transparent to-[#04060A]/55"></div>
+          <div className="absolute inset-0 blueprint-grid opacity-15"></div>
         </div>
 
         {/* Hero Content Stage */}
-        <section className="relative z-10 py-10 lg:py-4 flex-1 flex flex-col justify-center text-white">
-          <div className="container-custom">
+        <section className="relative z-10 py-8 sm:py-10 lg:py-4 flex-1 flex flex-col justify-center text-white">
+          <div className="container-custom w-full">
             
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center w-full">
               
@@ -126,13 +177,13 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
               <div className="lg:col-span-7 flex flex-col items-start text-left animate-fade-in-up">
                 
                 <div className="flex flex-wrap items-center gap-2 mb-3">
-                  <div className="inline-flex items-center gap-1.5 bg-accent/25 border border-accent/50 px-3 py-1 rounded-full text-white font-mono text-[0.65rem] sm:text-[0.68rem] font-bold tracking-[1px] shadow-sm">
+                  <div className="inline-flex items-center gap-1.5 bg-accent/25 border border-accent/50 px-3 py-1 rounded-full text-white font-mono text-[0.64rem] sm:text-[0.68rem] font-bold tracking-[1px] shadow-sm">
                     <IconAward size={13} className="text-accent shrink-0" />
                     <span>MAKE IN INDIA // ISO 9001:2015</span>
                   </div>
                 </div>
 
-                <h1 className="font-display font-black uppercase tracking-[0.02em] leading-[0.92] text-[2.2rem] sm:text-[3.2rem] xl:text-[3.8rem] text-white mb-4">
+                <h1 className="font-display font-black uppercase tracking-[0.02em] leading-[0.94] text-[2.1rem] sm:text-[3.1rem] xl:text-[3.8rem] text-white mb-4">
                   <span className="text-transparent-outline block">PRECISION FORGED</span>
                   <span className="block mt-0.5">STRUCTURAL</span>
                   <span className="bg-gradient-to-r from-[#FF3B42] via-[#D9232A] to-[#FF6B70] bg-clip-text text-transparent block mt-0.5">
@@ -140,26 +191,34 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
                   </span>
                 </h1>
 
-                <p className="text-white/90 text-[0.9rem] sm:text-[1.05rem] leading-[1.6] max-w-[600px] mb-6 border-l-2 border-accent pl-3.5 bg-black/40 p-3 rounded-r-[4px]">
+                <p className="text-white/90 text-[0.88rem] sm:text-[1.02rem] leading-[1.6] max-w-[600px] mb-6 border-l-2 border-accent pl-3.5 bg-black/45 p-3 rounded-r-[4px]">
                   {aboutUsData.hero.subtitle} Engineered in Stainless Steel A2 (304), A4 (316), and Zinc-Plated Carbon Steel for zero-slippage critical infrastructure loads.
                 </p>
 
-                <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 w-full mb-4">
+                <div className="grid grid-cols-1 sm:flex sm:flex-wrap items-center gap-2.5 sm:gap-3 w-full mb-2">
                   <button
                     type="button"
                     onClick={openInquiryModal}
-                    className="btn btn-primary !px-4 sm:!px-5 !py-2.5 sm:!py-3 !text-[0.8rem] sm:!text-[0.85rem] group shadow-md"
+                    className="btn btn-primary w-full sm:w-auto justify-center !px-5 !py-3 !text-[0.82rem] group shadow-md"
                   >
                     <span>Request Tender Quote</span>
                     <IconArrowRight size={15} className="transition-transform duration-250 group-hover:translate-x-1" />
                   </button>
                   <Link
                     to="/products"
-                    className="btn btn-outline-white !px-4 sm:!px-5 !py-2.5 sm:!py-3 !text-[0.8rem] sm:!text-[0.85rem] group bg-white/10"
+                    className="btn btn-outline-white w-full sm:w-auto justify-center !px-5 !py-3 !text-[0.82rem] group"
                   >
                     <span>Technical Catalogue</span>
                     <IconArrowRight size={15} className="transition-transform duration-250 group-hover:translate-x-1" />
                   </Link>
+                  <a
+                    href="/catalogue/catalogue.pdf"
+                    download
+                    className="btn bg-white/10 hover:bg-white/20 text-white border border-white/25 w-full sm:w-auto justify-center !px-4 !py-3 !text-[0.78rem] font-mono"
+                  >
+                    <IconDownload size={14} className="text-accent" />
+                    <span>PDF Dossier</span>
+                  </a>
                 </div>
 
               </div>
@@ -169,15 +228,17 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
                 <div className="relative rounded-[6px] bg-gradient-to-b from-white/20 to-white/5 p-[1px] shadow-2xl">
                   <div className="relative bg-[#06090F] rounded-[5px] overflow-hidden border border-white/20">
                     
-                    <div className="flex items-center justify-between px-3.5 py-2.5 bg-black/70 border-b border-white/15 font-mono text-[0.62rem] sm:text-[0.65rem]">
-                      <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-accent animate-pulse-dot"></span>
-                        <span className="text-white font-bold tracking-[1px]">LIVE FIELD DEPLOYMENT</span>
+                    <div className="flex items-center justify-between px-3 sm:px-3.5 py-2.5 bg-black/80 border-b border-white/15 font-mono text-[0.6rem] sm:text-[0.65rem] gap-2">
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <span className="w-2 h-2 rounded-full bg-accent animate-pulse-dot shrink-0"></span>
+                        <span className="text-white font-bold tracking-[0.8px] truncate">
+                          FIELD DEPLOYMENT // 0{currentSlide + 1}
+                        </span>
                       </div>
-                      <span className="text-accent font-bold">{heroSlides[currentSlide].sector}</span>
+                      <span className="text-accent font-bold shrink-0">{heroSlides[currentSlide].sector}</span>
                     </div>
 
-                    <div className="relative h-[220px] sm:h-[270px] w-full overflow-hidden bg-black">
+                    <div className="relative h-[220px] sm:h-[260px] w-full overflow-hidden bg-black">
                       {heroSlides.map((slide, index) => (
                         <div
                           key={index}
@@ -193,7 +254,7 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
                         </div>
                       ))}
 
-                      <div className="absolute top-2.5 right-2.5 z-20 bg-black/80 border border-white/20 border-r-2 border-r-accent px-2.5 py-1 rounded-[3px] text-right font-mono shadow-md">
+                      <div className="absolute top-2.5 right-2.5 z-20 bg-black/85 border border-white/20 border-r-2 border-r-accent px-2.5 py-1 rounded-[3px] text-right font-mono shadow-md">
                         <span className="block text-[0.5rem] text-[#94A3B8] uppercase tracking-[1px]">VERIFIED HOLD</span>
                         <strong className="text-[0.85rem] sm:text-[0.95rem] text-white font-bold">{heroSlides[currentSlide].peakLoad}</strong>
                       </div>
@@ -201,20 +262,20 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
                       <div className="absolute bottom-2.5 left-2.5 right-2.5 z-20 bg-black/90 border border-white/20 border-l-4 border-l-accent p-2.5 sm:p-3 rounded-[4px] shadow-lg">
                         <div className="flex items-center justify-between gap-2 mb-0.5">
                           <span className="font-mono text-[0.58rem] sm:text-[0.62rem] font-bold text-accent uppercase tracking-[1px]">
-                            APPLICATION 0{currentSlide + 1}
+                            APPLICATION // 0{currentSlide + 1}
                           </span>
-                          <span className="font-mono text-[0.55rem] text-[#22C55E] bg-[#22C55E]/20 px-1 py-0.5 rounded font-bold">
-                            IS 1608
+                          <span className="font-mono text-[0.55rem] text-[#22C55E] bg-[#22C55E]/20 px-1.5 py-0.5 rounded font-bold shrink-0">
+                            IS 1608 PASSED
                           </span>
                         </div>
                         <h3 className="font-display text-[0.95rem] sm:text-[1.05rem] text-white uppercase tracking-[0.5px] mb-0.5 truncate">
                           {heroSlides[currentSlide].caption}
                         </h3>
-                        <div className="flex items-center justify-between text-[0.62rem] sm:text-[0.68rem] font-mono text-[#CBD5E1] pt-1 border-t border-white/15">
+                        <div className="flex items-center justify-between text-[0.62rem] sm:text-[0.68rem] font-mono text-[#CBD5E1] pt-1 border-t border-white/15 gap-2">
                           <span className="truncate">SPEC: {heroSlides[currentSlide].recommended}</span>
                           <Link
                             to="/products"
-                            className="text-white hover:text-accent font-bold inline-flex items-center gap-1 shrink-0 ml-2"
+                            className="text-white hover:text-accent font-bold inline-flex items-center gap-1 shrink-0"
                           >
                             VIEW <IconArrowRight size={12} />
                           </Link>
@@ -222,8 +283,8 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
                       </div>
                     </div>
 
-                    {/* Selector Tabs */}
-                    <div className="grid grid-cols-2 sm:grid-cols-4 bg-black/85 border-t border-white/15">
+                    {/* Selector Tabs (4 columns cleanly aligned) */}
+                    <div className="grid grid-cols-4 bg-black/85 border-t border-white/15">
                       {heroSlides.map((slide, idx) => {
                         const active = idx === currentSlide;
                         return (
@@ -231,13 +292,13 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
                             key={idx}
                             type="button"
                             onClick={() => setCurrentSlide(idx)}
-                            className={`relative py-2 px-2 text-left font-mono transition-colors cursor-pointer border-r border-b sm:border-b-0 border-white/15 last:border-r-0 ${
+                            className={`relative py-2 px-1.5 sm:px-2.5 text-left font-mono transition-colors cursor-pointer border-r border-white/15 last:border-r-0 min-w-0 ${
                               active ? 'bg-white/15 text-white' : 'text-[#94A3B8] hover:text-white hover:bg-white/5'
                             }`}
                           >
                             <span className={`absolute top-0 left-0 right-0 h-[2px] ${active ? 'bg-accent' : 'bg-transparent'}`}></span>
-                            <span className={`block text-[0.58rem] font-bold ${active ? 'text-accent' : 'text-[#94A3B8]'}`}>0{idx + 1}</span>
-                            <span className="block text-[0.64rem] font-bold truncate">{slide.shortTitle}</span>
+                            <span className={`block text-[0.56rem] font-bold ${active ? 'text-accent' : 'text-[#94A3B8]'}`}>0{idx + 1}</span>
+                            <span className="block text-[0.6rem] sm:text-[0.66rem] font-bold truncate">{slide.shortTitle}</span>
                           </button>
                         );
                       })}
@@ -259,7 +320,7 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
                 key={i}
                 className="inline-flex items-center gap-3 px-6 font-mono text-[0.65rem] sm:text-[0.7rem] font-bold text-white uppercase tracking-[1.4px] whitespace-nowrap"
               >
-                <span className="w-1.5 h-1.5 bg-accent rotate-45 inline-block"></span>
+                <span className="w-1.5 h-1.5 bg-accent rotate-45 inline-block shrink-0"></span>
                 {item}
               </div>
             ))}
@@ -269,19 +330,19 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
       </div>
 
       {/* Core Product Series Quick-Select Strip */}
-      <section className="py-14 sm:py-16 bg-bg-card border-b border-border-light blueprint-grid-light">
+      <section className="py-12 sm:py-16 bg-bg-card border-b border-border-light blueprint-grid-light">
         <div className="container-custom">
-          <div className="flex justify-between items-end gap-6 mb-8 flex-wrap">
+          <div className="flex justify-between items-end gap-4 mb-8 flex-wrap">
             <div>
               <div className="section-pre-title !justify-start !mb-1.5">
                 <span></span> CORE PRODUCT SERIES
               </div>
-              <h2 className="text-[1.8rem] sm:text-[2.5rem] uppercase mb-0">
+              <h2 className="text-[1.75rem] sm:text-[2.5rem] uppercase mb-0">
                 Engineered <span className="text-accent">Fastening Systems</span>
               </h2>
             </div>
-            <Link to="/products" className="btn btn-sm btn-outline-dark group">
-              Full Catalogue <IconArrowRight size={14} className="transition-transform duration-250 group-hover:translate-x-1" />
+            <Link to="/products" className="btn btn-sm btn-outline-dark group w-full sm:w-auto justify-center">
+              Full Searchable Catalogue <IconArrowRight size={14} className="transition-transform duration-250 group-hover:translate-x-1" />
             </Link>
           </div>
 
@@ -297,7 +358,7 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
                   to={`/product/${product.id}`}
                   className="group bg-white border border-border-light border-t-[3px] border-t-steel-dark rounded-[3px] flex flex-col overflow-hidden transition-all duration-250 hover:border-t-accent hover:border-steel-dark hover:-translate-y-1 hover:shadow-md"
                 >
-                  <div className="h-[150px] sm:h-[155px] bg-bg-pedestal relative overflow-hidden border-b border-border-light">
+                  <div className="h-[160px] bg-bg-pedestal relative overflow-hidden border-b border-border-light">
                     <div
                       className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
                       style={{ backgroundImage: `url('${product.image}')` }}
@@ -340,12 +401,12 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
       </section>
 
       {/* Why Infrastructure Leaders Choose Koncave */}
-      <section className="py-16 sm:py-20 bg-white border-b border-border-light">
+      <section className="py-14 sm:py-20 bg-white border-b border-border-light">
         <div className="container-custom">
-          <div className="text-center max-w-[720px] mx-auto mb-12 sm:mb-14">
+          <div className="text-center max-w-[720px] mx-auto mb-10 sm:mb-14">
             <div className="section-pre-title"><span></span> QUALITY ASSURANCE & ADVANTAGE <span></span></div>
-            <h2 className="text-[2rem] sm:text-[3rem] uppercase mb-3">Why Infrastructure Leaders Choose Koncave</h2>
-            <p className="text-text-secondary text-[0.98rem] sm:text-[1.02rem] m-0">
+            <h2 className="text-[1.85rem] sm:text-[3rem] uppercase mb-3">Why Infrastructure Leaders Choose Koncave</h2>
+            <p className="text-text-secondary text-[0.94rem] sm:text-[1.02rem] m-0">
               Engineered to meet the stringent mechanical performance criteria demanded by leading civil contractors and EPC consultants.
             </p>
           </div>
@@ -377,19 +438,19 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
       </section>
 
       {/* Structural Performance & Load Ratings Summary */}
-      <section className="py-16 sm:py-20 bg-steel-dark text-white border-b border-white/10 blueprint-grid relative overflow-hidden">
+      <section className="py-14 sm:py-20 bg-steel-dark text-white border-b border-white/10 blueprint-grid relative overflow-hidden">
         <div className="container-custom relative z-10">
-          <div className="flex justify-between items-end gap-6 mb-10 sm:mb-12 flex-wrap">
+          <div className="flex justify-between items-end gap-4 mb-10 sm:mb-12 flex-wrap">
             <div>
               <div className="section-pre-title text-accent !justify-start !mb-1.5">
                 <span></span> MECHANICAL BENCHMARKS <span></span>
               </div>
-              <h2 className="text-[2rem] sm:text-[3rem] uppercase mb-0 text-white">
+              <h2 className="text-[1.85rem] sm:text-[3rem] uppercase mb-0 text-white">
                 Structural Performance & <span className="text-accent">Load Ratings</span>
               </h2>
             </div>
-            <Link to="/products" className="btn btn-sm btn-outline-white group">
-              Explore Full Data <IconArrowRight size={14} className="transition-transform duration-250 group-hover:translate-x-1" />
+            <Link to="/products" className="btn btn-sm btn-outline-white group w-full sm:w-auto justify-center">
+              Explore Full Technical Data <IconArrowRight size={14} className="transition-transform duration-250 group-hover:translate-x-1" />
             </Link>
           </div>
 
@@ -403,10 +464,10 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
                   <span className="font-mono text-[0.65rem] font-bold text-accent tracking-[1.2px] uppercase block mb-2">
                     // METRIC {idx + 1}
                   </span>
-                  <h3 className="font-display text-[1.8rem] sm:text-[2rem] font-black text-white uppercase mb-2 tracking-[0.5px]">
+                  <h3 className="font-display text-[1.75rem] sm:text-[2rem] font-black text-white uppercase mb-2 tracking-[0.5px]">
                     {metric.value}
                   </h3>
-                  <h4 className="font-sans font-bold text-[1rem] sm:text-[1.05rem] text-white mb-2">
+                  <h4 className="font-sans font-bold text-[0.98rem] sm:text-[1.05rem] text-white mb-2">
                     {metric.label}
                   </h4>
                   <p className="text-[#94A3B8] text-[0.86rem] sm:text-[0.9rem] leading-[1.6] m-0">
@@ -423,14 +484,14 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
       </section>
 
       {/* Industrial CTA Banner */}
-      <section className="bg-gradient-to-br from-steel-dark to-[#151F30] border-t-4 border-t-accent border-b border-white/10 py-14 sm:py-18 text-white blueprint-grid">
-        <div className="container-custom flex items-center justify-between gap-8 sm:gap-12 flex-wrap">
+      <section className="bg-gradient-to-br from-steel-dark to-[#151F30] border-t-4 border-t-accent border-b border-white/10 py-12 sm:py-18 text-white blueprint-grid">
+        <div className="container-custom flex items-center justify-between gap-6 sm:gap-12 flex-wrap">
           <div className="max-w-[680px]">
             <span className="section-pre-title !justify-start"><span></span> DIRECT FACTORY DISPATCH</span>
-            <h2 className="text-white text-[1.8rem] sm:text-[2.8rem] uppercase mb-2">
+            <h2 className="text-white text-[1.75rem] sm:text-[2.8rem] uppercase mb-2">
               Need Bulk Fasteners For Your Next Tender?
             </h2>
-            <p className="text-[#94A3B8] text-[0.95rem] sm:text-[1.05rem] m-0">
+            <p className="text-[#94A3B8] text-[0.92rem] sm:text-[1.05rem] m-0">
               Get factory-direct pricing, material test certificates (MTC), and rapid dispatch from our Rohtak manufacturing unit.
             </p>
           </div>
