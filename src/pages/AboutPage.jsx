@@ -53,7 +53,6 @@ const AboutPage = () => {
     if (lightbox.isOpen) {
       document.body.style.overflow = 'hidden';
       const currentViewport = viewportRef.current;
-
       if (currentViewport) {
         const handleNativeWheel = (e) => {
           e.preventDefault();
@@ -64,7 +63,6 @@ const AboutPage = () => {
             return { ...prev, zoom: next, position: nextPos };
           });
         };
-
         currentViewport.addEventListener('wheel', handleNativeWheel, { passive: false });
         return () => {
           currentViewport.removeEventListener('wheel', handleNativeWheel);
@@ -74,7 +72,6 @@ const AboutPage = () => {
     } else {
       document.body.style.overflow = 'unset';
     }
-
     return () => {
       document.body.style.overflow = 'unset';
     };
@@ -239,13 +236,13 @@ const AboutPage = () => {
               onClick={() => openLightbox(photo)}
               className="group bg-white border border-border-light border-t-4 border-t-steel-dark rounded-[3px] overflow-hidden shadow-sm transition-all duration-300 hover:border-t-accent hover:-translate-y-1.5 hover:shadow-lg cursor-pointer flex flex-col justify-between"
             >
-              <div className="h-[200px] bg-bg-pedestal relative overflow-hidden">
+              <div className="h-[200px] bg-bg-pedestal relative overflow-hidden flex items-center justify-center">
                 <img
                   src={photo.file}
                   alt={photo.name}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   onError={(e) => {
-                    e.target.style.display = 'none';
+                    e.target.src = "https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=800&auto=format&fit=crop";
                   }}
                 />
                 <div className="absolute top-2.5 right-2.5 bg-steel-dark/80 text-white font-mono text-[0.62rem] px-2 py-0.5 rounded-[2px] uppercase">
@@ -410,6 +407,9 @@ const AboutPage = () => {
                   className="max-w-[90%] max-h-[72vh] object-contain rounded-[3px] shadow-2xl transition-transform duration-75 ease-out origin-center pointer-events-none"
                   style={{
                     transform: `scale(${lightbox.zoom}) translate(${lightbox.position.x / lightbox.zoom}px, ${lightbox.position.y / lightbox.zoom}px)`
+                  }}
+                  onError={(e) => {
+                    e.target.src = "https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=800&auto=format&fit=crop";
                   }}
                 />
               </div>

@@ -76,7 +76,6 @@ const ApplicationsPage = () => {
     if (lightbox.isOpen) {
       document.body.style.overflow = 'hidden';
       const currentViewport = viewportRef.current;
-
       if (currentViewport) {
         const handleNativeWheel = (e) => {
           e.preventDefault();
@@ -87,7 +86,6 @@ const ApplicationsPage = () => {
             return { ...prev, zoom: next, position: nextPos };
           });
         };
-
         currentViewport.addEventListener('wheel', handleNativeWheel, { passive: false });
         return () => {
           currentViewport.removeEventListener('wheel', handleNativeWheel);
@@ -97,7 +95,6 @@ const ApplicationsPage = () => {
     } else {
       document.body.style.overflow = 'unset';
     }
-
     return () => {
       document.body.style.overflow = 'unset';
     };
@@ -325,6 +322,9 @@ const ApplicationsPage = () => {
                   className="max-w-[90%] max-h-[72vh] object-contain rounded-[3px] shadow-2xl transition-transform duration-75 ease-out origin-center pointer-events-none"
                   style={{
                     transform: `scale(${lightbox.zoom}) translate(${lightbox.position.x / lightbox.zoom}px, ${lightbox.position.y / lightbox.zoom}px)`
+                  }}
+                  onError={(e) => {
+                    e.target.src = "https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=800&auto=format&fit=crop";
                   }}
                 />
               </div>

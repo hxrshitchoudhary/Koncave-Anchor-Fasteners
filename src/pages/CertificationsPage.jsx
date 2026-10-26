@@ -100,7 +100,6 @@ const CertificationsPage = () => {
     if (lightbox.isOpen) {
       document.body.style.overflow = 'hidden';
       const currentViewport = viewportRef.current;
-
       if (currentViewport) {
         const handleNativeWheel = (e) => {
           e.preventDefault();
@@ -111,7 +110,6 @@ const CertificationsPage = () => {
             return { ...prev, zoom: next, position: nextPos };
           });
         };
-
         currentViewport.addEventListener('wheel', handleNativeWheel, { passive: false });
         return () => {
           currentViewport.removeEventListener('wheel', handleNativeWheel);
@@ -121,7 +119,6 @@ const CertificationsPage = () => {
     } else {
       document.body.style.overflow = 'unset';
     }
-
     return () => {
       document.body.style.overflow = 'unset';
     };
@@ -253,7 +250,7 @@ const CertificationsPage = () => {
                   style={{ WebkitTouchCallout: 'none', userSelect: 'none' }}
                   className="w-full h-full object-contain bg-white rounded-[2px] shadow-md transition-transform duration-500 group-hover:scale-103 pointer-events-none select-none"
                   onError={(e) => {
-                    e.target.style.display = 'none';
+                    e.target.src = "https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=800&auto=format&fit=crop";
                   }}
                 />
                 <div
@@ -400,6 +397,9 @@ const CertificationsPage = () => {
                     transform: `scale(${lightbox.zoom}) translate(${lightbox.position.x / lightbox.zoom}px, ${lightbox.position.y / lightbox.zoom}px)`
                   }}
                   className="max-w-[90%] max-h-[72vh] object-contain bg-white p-2 rounded-[3px] shadow-2xl transition-transform duration-75 ease-out origin-center pointer-events-none select-none"
+                  onError={(e) => {
+                    e.target.src = "https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=800&auto=format&fit=crop";
+                  }}
                 />
 
                 <div

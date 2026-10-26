@@ -52,7 +52,6 @@ const ProductDetailPage = ({ openQuoteModal }) => {
     if (lightbox.isOpen) {
       document.body.style.overflow = 'hidden';
       const currentViewport = viewportRef.current;
-
       if (currentViewport) {
         const handleNativeWheel = (e) => {
           e.preventDefault();
@@ -63,7 +62,6 @@ const ProductDetailPage = ({ openQuoteModal }) => {
             return { ...prev, zoom: next, position: nextPos };
           });
         };
-
         currentViewport.addEventListener('wheel', handleNativeWheel, { passive: false });
         return () => {
           currentViewport.removeEventListener('wheel', handleNativeWheel);
@@ -73,7 +71,6 @@ const ProductDetailPage = ({ openQuoteModal }) => {
     } else {
       document.body.style.overflow = 'unset';
     }
-
     return () => {
       document.body.style.overflow = 'unset';
     };
@@ -257,8 +254,7 @@ const ProductDetailPage = ({ openQuoteModal }) => {
         </div>
 
         <div
-          className="flex-[0.95] bg-bg-pedestal bg-cover bg-center border-t-4 lg:border-t-0 lg:border-l-4 border-accent min-h-[240px] sm:min-h-[280px] lg:min-h-[360px] relative cursor-zoom-in group animate-fade-in"
-          style={{ backgroundImage: `url(${product.image})` }}
+          className="flex-[0.95] bg-bg-pedestal bg-cover bg-center border-t-4 lg:border-t-0 lg:border-l-4 border-accent min-h-[240px] sm:min-h-[280px] lg:min-h-[360px] relative cursor-zoom-in group animate-fade-in flex items-center justify-center overflow-hidden"
           onClick={() =>
             openLightbox({
               imageSrc: product.image,
@@ -269,6 +265,14 @@ const ProductDetailPage = ({ openQuoteModal }) => {
           }
           title="Click to inspect high-resolution product profile"
         >
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              e.target.src = "https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=800&auto=format&fit=crop";
+            }}
+          />
           <div className="absolute bottom-3.5 right-3.5 bg-steel-dark/86 text-white px-3.5 py-[7px] rounded-[3px] border-l-[3px] border-l-accent font-mono text-[0.7rem] sm:text-[0.72rem] font-bold inline-flex items-center gap-1.5 tracking-[0.6px] uppercase transition-all group-hover:bg-accent">
             <IconZoomIn size={16} /> Click to Enlarge Spec View
           </div>
@@ -597,6 +601,9 @@ const ProductDetailPage = ({ openQuoteModal }) => {
                 src={product.appReferenceImage}
                 alt="Application References"
                 className="max-w-full h-auto max-h-[580px] object-contain rounded-[2px]"
+                onError={(e) => {
+                  e.target.src = "https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=800&auto=format&fit=crop";
+                }}
               />
               <div className="absolute inset-0 bg-steel-dark/62 backdrop-blur-[2px] flex items-center justify-center opacity-0 transition-opacity duration-250 group-hover:opacity-100 p-4">
                 <div className="inline-flex items-center gap-2.5 bg-steel-dark text-white border border-white/20 border-l-4 border-l-accent py-3 px-5 rounded-[3px] font-mono text-[0.78rem] sm:text-[0.85rem] font-bold tracking-[1px] shadow-lg text-center">
@@ -721,6 +728,9 @@ const ProductDetailPage = ({ openQuoteModal }) => {
                   className="max-w-[92%] max-h-[68vh] sm:max-h-[72vh] object-contain bg-white p-2 sm:p-3 rounded-[3px] shadow-2xl transition-transform duration-75 ease-out origin-center pointer-events-none"
                   style={{
                     transform: `scale(${lightbox.zoom}) translate(${lightbox.position.x / lightbox.zoom}px, ${lightbox.position.y / lightbox.zoom}px)`
+                  }}
+                  onError={(e) => {
+                    e.target.src = "https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=800&auto=format&fit=crop";
                   }}
                 />
               </div>
