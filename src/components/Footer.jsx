@@ -4,15 +4,23 @@ import { companyInfo } from '../data.js';
 import { IconAward, IconMapPin, IconPhone, IconMail, IconFileText } from './Icons.jsx';
 
 const testReports = [
-  { name: "Cocave Wedge Anchor.pdf", file: "/reports/Cocave%20Wedge%20Anchor.pdf" },
-  { name: "8X100MM Anchor Test Report.pdf", file: "/reports/8X100MM%20Anchor%20Test%20Report.pdf" },
-  { name: "10X100 Anchor Test Report.pdf", file: "/reports/10X100%20Anchor%20Test%20Report.pdf" },
-  { name: "12X150 Anchor Test Report.pdf", file: "/reports/12X150%20Anchor%20Test%20Report.pdf" },
-  { name: "16x220mm Anchor Test Report.pdf", file: "/reports/16x220mm%20Anchor%20Test%20Report.pdf" },
-  { name: "Atmay - SS M10 -Pullout Test Certificate.pdf", file: "/reports/Atmay%20-%20SS%20M10%20-Pullout%20Test%20Certificate.pdf" },
-  { name: "Atmay SS -Wedge Anchors -M10 X 100 - Tesile Test.pdf", file: "/reports/Atmay%20SS%20-Wedge%20Anchors%20-M10%20X%20100%20-%20Tesile%20Test.pdf" },
-  { name: "Atmay SS M12 Wedge Anchor - Pull Out Test.pdf", file: "/reports/Atmay%20SS%20M12%20Wedge%20Anchor%20-%20Pull%20Out%20Test.pdf" },
-  { name: "Atmay - SS wedge anchor M12 x 100 - Tensile Test - Koncave.pdf", file: "/reports/Atmay%20-%20SS%20wedge%20anchor%20M12%20x%20100%20-%20Tensile%20Test%20-%20Koncave.pdf" }
+  {
+    name: "12X100 GI Tensile Strength Koncave",
+    file: "/reports/12X100%20GI%20tensile%20strength%20koncave%20.pdf"
+  },
+  {
+    name: "GI 10x100 Koncave",
+    file: "/reports/gi%2010x100%20koncave%20.pdf"
+  },
+  {
+    name: "10x100 SS Koncave",
+    file: "/reports/10x100%20SS%20koncave.pdf"
+  },
+  {
+    name: "Koncave Wedge Anchors",
+    file: "/reports/Koncave%20Wedge%20Anchors.pdf"
+  }
+
 ];
 
 const linkClass =
