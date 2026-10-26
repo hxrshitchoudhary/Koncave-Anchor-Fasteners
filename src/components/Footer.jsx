@@ -3,28 +3,25 @@ import { Link } from 'react-router-dom';
 import { companyInfo } from '../data.js';
 import { IconAward, IconMapPin, IconPhone, IconMail, IconFileText } from './Icons.jsx';
 
+const testReports = [
+  { name: "Cocave Wedge Anchor.pdf", file: "/reports/Cocave%20Wedge%20Anchor.pdf" },
+  { name: "8X100MM Anchor Test Report.pdf", file: "/reports/8X100MM%20Anchor%20Test%20Report.pdf" },
+  { name: "10X100 Anchor Test Report.pdf", file: "/reports/10X100%20Anchor%20Test%20Report.pdf" },
+  { name: "12X150 Anchor Test Report.pdf", file: "/reports/12X150%20Anchor%20Test%20Report.pdf" },
+  { name: "16x220mm Anchor Test Report.pdf", file: "/reports/16x220mm%20Anchor%20Test%20Report.pdf" },
+  { name: "Atmay - SS M10 -Pullout Test Certificate.pdf", file: "/reports/Atmay%20-%20SS%20M10%20-Pullout%20Test%20Certificate.pdf" },
+  { name: "Atmay SS -Wedge Anchors -M10 X 100 - Tesile Test.pdf", file: "/reports/Atmay%20SS%20-Wedge%20Anchors%20-M10%20X%20100%20-%20Tesile%20Test.pdf" },
+  { name: "Atmay SS M12 Wedge Anchor - Pull Out Test.pdf", file: "/reports/Atmay%20SS%20M12%20Wedge%20Anchor%20-%20Pull%20Out%20Test.pdf" },
+  { name: "Atmay - SS wedge anchor M12 x 100 - Tensile Test - Koncave.pdf", file: "/reports/Atmay%20-%20SS%20wedge%20anchor%20M12%20x%20100%20-%20Tensile%20Test%20-%20Koncave.pdf" }
+];
+
+const linkClass =
+  "text-[#94A3B8] flex items-center gap-2 text-[0.85rem] leading-[1.4] hover:text-white transition-colors group";
+
 const Footer = () => {
-  const testReports = [
-    { name: "Cocave Wedge Anchor.pdf", file: "/reports/Cocave%20Wedge%20Anchor.pdf" },
-    { name: "8X100MM Anchor Test Report.pdf", file: "/reports/8X100MM%20Anchor%20Test%20Report.pdf" },
-    { name: "10X100 Anchor Test Report.pdf", file: "/reports/10X100%20Anchor%20Test%20Report.pdf" },
-    { name: "12X150 Anchor Test Report.pdf", file: "/reports/12X150%20Anchor%20Test%20Report.pdf" },
-    { name: "16x220mm Anchor Test Report.pdf", file: "/reports/16x220mm%20Anchor%20Test%20Report.pdf" },
-    { name: "Atmay - SS M10 -Pullout Test Certificate.pdf", file: "/reports/Atmay%20-%20SS%20M10%20-Pullout%20Test%20Certificate.pdf" },
-    { name: "Atmay SS -Wedge Anchors -M10 X 100 - Tesile Test.pdf", file: "/reports/Atmay%20SS%20-Wedge%20Anchors%20-M10%20X%20100%20-%20Tesile%20Test.pdf" },
-    { name: "Atmay SS M12 Wedge Anchor - Pull Out Test.pdf", file: "/reports/Atmay%20SS%20M12%20Wedge%20Anchor%20-%20Pull%20Out%20Test.pdf" },
-    { name: "Atmay - SS wedge anchor M12 x 100 - Tensile Test - Koncave.pdf", file: "/reports/Atmay%20-%20SS%20wedge%20anchor%20M12%20x%20100%20-%20Tensile%20Test%20-%20Koncave.pdf" }
-  ];
-
-  const linkClass =
-    "text-[#94A3B8] flex items-center gap-2 text-[0.85rem] leading-[1.4] hover:text-white transition-colors group";
-
   return (
     <footer className="bg-steel-dark text-white mt-16 border-t-[4px] border-accent blueprint-grid relative z-10 overflow-hidden">
-      {/* Main Footer Grid */}
       <div className="container-custom grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 pt-12 pb-10 border-b border-white/10">
-        
-        {/* Col 1: Brand & Initiative */}
         <div className="flex flex-col items-start w-full">
           <Link to="/" className="no-underline flex items-center gap-3 mb-3">
             <img
@@ -57,7 +54,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Col 2: Navigation Links */}
         <div className="flex flex-col items-start w-full">
           <h3 className="font-display mb-3 text-[1.1rem] tracking-[1px] uppercase border-b-2 border-accent pb-1 w-full text-white">
             Navigation
@@ -91,7 +87,6 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Col 3: Lab Test Reports */}
         <div className="flex flex-col items-start w-full">
           <h3 className="font-display mb-3 text-[1.1rem] tracking-[1px] uppercase border-b-2 border-accent pb-1 w-full text-white">
             Lab Test Reports (MTC)
@@ -114,7 +109,6 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Col 4: Manufacturing Unit / Contact */}
         <div className="flex flex-col items-start w-full">
           <h3 className="font-display mb-3 text-[1.1rem] tracking-[1px] uppercase border-b-2 border-accent pb-1 w-full text-white">
             Manufacturing Unit
@@ -134,10 +128,8 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-
       </div>
 
-      {/* Bottom Copyright Strip */}
       <div className="bg-[#05080E] py-4 text-center text-steel-light font-mono text-[0.72rem]">
         <div className="container-custom flex flex-col sm:flex-row items-center justify-between gap-2 px-4">
           <p className="m-0">&copy; 2026 Koncave Anchor &amp; Fasteners Pvt. Ltd. All rights reserved.</p>

@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
-import { HashRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
+
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
 import QuoteModal from './components/QuoteModal.jsx';
-import ScrollToTop from './components/ScrollToTopButton.jsx';
 import ScrollToTopButton from './components/ScrollToTopButton.jsx';
+
 import HomePage from './pages/HomePage.jsx';
 import AboutPage from './pages/AboutPage.jsx';
 import CatalogPage from './pages/CatalogPage.jsx';
 import ProductDetailPage from './pages/ProductDetailPage.jsx';
 import CertificationsPage from './pages/CertificationsPage.jsx';
 import ApplicationsPage from './pages/ApplicationsPage.jsx';
+
 import './App.css';
 
 function AppContent() {
@@ -23,7 +26,8 @@ function AppContent() {
   };
 
   const openProductQuote = (product, variant = null) => {
-    const defaultVariant = variant || product?.sections?.find((s) => s.type === 'variant')?.rows?.[0] || null;
+    const defaultVariant =
+      variant || product?.sections?.find((s) => s.type === 'variant')?.rows?.[0] || null;
     setQuoteData({ product, variant: defaultVariant });
     navigate('/inquiry');
   };
@@ -34,7 +38,10 @@ function AppContent() {
 
       <main className="main-area">
         <Routes>
-          <Route path="/" element={<HomePage openQuoteModal={openProductQuote} openInquiryModal={openGeneralInquiry} />} />
+          <Route
+            path="/"
+            element={<HomePage openQuoteModal={openProductQuote} openInquiryModal={openGeneralInquiry} />}
+          />
           <Route path="/products" element={<CatalogPage openQuoteModal={openProductQuote} />} />
           <Route path="/applications" element={<ApplicationsPage />} />
           <Route path="/certifications" element={<CertificationsPage />} />
@@ -52,9 +59,10 @@ function AppContent() {
 
 export default function App() {
   return (
-    <Router>
-      <ScrollToTop />
-      <AppContent />
-    </Router>
+    <HelmetProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </HelmetProvider>
   );
 }

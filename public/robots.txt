@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /inquiry
+
+Sitemap: https://koncave.co.in/sitemap.xml

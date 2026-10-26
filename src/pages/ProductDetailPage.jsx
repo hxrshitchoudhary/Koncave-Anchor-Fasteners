@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Link, useParams } from 'react-router-dom';
 import { products } from '../data.js';
+import SEO from '../components/SEO.jsx';
 import {
   IconChevronRight,
   IconCheck,
@@ -51,6 +52,7 @@ const ProductDetailPage = ({ openQuoteModal }) => {
     if (lightbox.isOpen) {
       document.body.style.overflow = 'hidden';
       const currentViewport = viewportRef.current;
+
       if (currentViewport) {
         const handleNativeWheel = (e) => {
           e.preventDefault();
@@ -61,6 +63,7 @@ const ProductDetailPage = ({ openQuoteModal }) => {
             return { ...prev, zoom: next, position: nextPos };
           });
         };
+
         currentViewport.addEventListener('wheel', handleNativeWheel, { passive: false });
         return () => {
           currentViewport.removeEventListener('wheel', handleNativeWheel);
@@ -70,6 +73,7 @@ const ProductDetailPage = ({ openQuoteModal }) => {
     } else {
       document.body.style.overflow = 'unset';
     }
+
     return () => {
       document.body.style.overflow = 'unset';
     };
@@ -167,8 +171,37 @@ const ProductDetailPage = ({ openQuoteModal }) => {
         : 'bg-bg-pedestal border-border-light text-text-secondary hover:bg-white hover:border-steel-light hover:text-steel-dark'
     }`;
 
+  const productSchema = {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": product.name,
+    "image": `https://koncave.co.in${product.image}`,
+    "description": product.description,
+    "brand": {
+      "@type": "Brand",
+      "name": "Koncave"
+    },
+    "manufacturer": {
+      "@type": "Organization",
+      "name": "Koncave Anchor & Fasteners Pvt. Ltd."
+    },
+    "material": product.materials.join(", "),
+    "offers": {
+      "@type": "AggregateOffer",
+      "priceCurrency": "INR",
+      "availability": "https://schema.org/InStock"
+    }
+  };
+
   return (
     <div className="container-custom section-padding pt-navbar">
+      <SEO
+        title={`${product.name} | Koncave Anchor & Fasteners Pvt. Ltd.`}
+        description={`${product.description} Available in ${product.materials.join(', ')}. Conforms to IS 1608:2022 testing standards.`}
+        canonical={`https://koncave.co.in/product/${product.id}`}
+        schemaJson={productSchema}
+      />
+
       <div className="mb-6 flex items-center gap-2 font-mono text-[0.75rem] sm:text-[0.8rem] font-bold uppercase text-text-secondary animate-fade-in flex-wrap">
         <Link to="/" className="hover:text-accent">Home</Link> <IconChevronRight size={14} />
         <Link to="/products" className="hover:text-accent">Product Range</Link> <IconChevronRight size={14} />
@@ -284,7 +317,7 @@ const ProductDetailPage = ({ openQuoteModal }) => {
         </div>
       )}
 
-      <div className="flex flex-col gap-6 sm:gap-8 w-full animate-fade-in" style={{ animationDelay: '0.15s' }}>
+      <div className="flex flex-col gap-6 sm:gap-8 w-full animate-fade-in">
         {visibleSections?.map((section, secIdx) => (
           <div
             key={secIdx}
@@ -306,10 +339,8 @@ const ProductDetailPage = ({ openQuoteModal }) => {
               )}
             </div>
 
-            {/* 1. VARIANT SECTION: Mobile Cards (< md) + Desktop Table (>= md) */}
             {section.type === 'variant' && (
               <>
-                {/* Mobile Card List */}
                 <div className="md:hidden divide-y divide-border-subtle">
                   {section.rows.map((row, i) => (
                     <div key={i} className="p-4 bg-white even:bg-[#F8FAFC] flex flex-col gap-3">
@@ -373,7 +404,6 @@ const ProductDetailPage = ({ openQuoteModal }) => {
                   ))}
                 </div>
 
-                {/* Desktop Table */}
                 <div className="hidden md:block w-full overflow-x-auto">
                   <table className="w-full border-collapse">
                     <thead>
@@ -426,7 +456,6 @@ const ProductDetailPage = ({ openQuoteModal }) => {
                                   variant: row
                                 })
                               }
-                              title="Inspect CAD Blueprint & Dimensions"
                             >
                               <IconZoomIn size={14} /> CAD
                             </button>
@@ -448,7 +477,6 @@ const ProductDetailPage = ({ openQuoteModal }) => {
               </>
             )}
 
-            {/* 2. TECH DATA SECTION: Stacks cleanly on mobile without horizontal scroll */}
             {section.type === 'tech' && (
               <div className="w-full">
                 <table className="w-full border-collapse block md:table">
@@ -471,7 +499,6 @@ const ProductDetailPage = ({ openQuoteModal }) => {
               </div>
             )}
 
-            {/* 3. REPORT SECTION: Sticky First Column + Smooth Touch Scroll on Mobile */}
             {section.type === 'report' && (
               <div className="w-full overflow-x-auto">
                 <table className="w-full border-collapse min-w-[540px] sm:min-w-[680px]">
@@ -481,7 +508,7 @@ const ProductDetailPage = ({ openQuoteModal }) => {
                         <th
                           key={i}
                           className={`py-3 px-3.5 sm:py-[13px] sm:px-5 text-left border-b border-border-subtle font-mono font-bold uppercase text-[0.7rem] sm:text-[0.76rem] tracking-[1px] whitespace-nowrap ${
-                            i === 0 ? 'sticky left-0 z-10 bg-steel-mid shadow-[2px_0_5px_rgba(0,0,0,0.15)]' : ''
+                            i === 0 ? 'sticky left-0 z-10 bg-steel-mid' : ''
                           }`}
                         >
                           {h}
@@ -497,7 +524,7 @@ const ProductDetailPage = ({ openQuoteModal }) => {
                             key={cellIdx}
                             className={`py-3 px-3.5 sm:py-[13px] sm:px-5 text-left border-b border-border-subtle font-mono text-[0.78rem] sm:text-[0.86rem] whitespace-nowrap ${
                               cellIdx === 0
-                                ? 'sticky left-0 z-10 font-bold text-steel-dark bg-inherit border-r border-border-subtle shadow-[2px_0_5px_rgba(0,0,0,0.04)]'
+                                ? 'sticky left-0 z-10 font-bold text-steel-dark bg-inherit border-r border-border-subtle'
                                 : ''
                             }`}
                           >
@@ -582,7 +609,6 @@ const ProductDetailPage = ({ openQuoteModal }) => {
         )}
       </div>
 
-      {/* Unified Full-Screen Zoom & Pan Lightbox via Portal */}
       {lightbox.isOpen &&
         createPortal(
           <div
@@ -593,7 +619,6 @@ const ProductDetailPage = ({ openQuoteModal }) => {
               className="w-full max-w-[1200px] h-[90vh] bg-steel-dark border border-white/18 border-t-4 border-t-accent rounded-[4px] shadow-2xl flex flex-col overflow-hidden text-white blueprint-grid"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Top Toolbar */}
               <div className="flex flex-wrap justify-between items-center gap-3 py-3 px-4 sm:py-3.5 sm:px-6 bg-[#06090F] border-b border-white/12 shrink-0">
                 <div className="min-w-0">
                   <span className="font-mono text-[0.62rem] sm:text-[0.66rem] font-bold text-accent tracking-[1.2px] block">
@@ -679,7 +704,6 @@ const ProductDetailPage = ({ openQuoteModal }) => {
                 </div>
               </div>
 
-              {/* Interactive Zoom & Drag Viewport */}
               <div
                 ref={viewportRef}
                 className={`flex-1 relative overflow-hidden flex flex-col items-center justify-center p-4 sm:p-6 bg-[radial-gradient(circle_at_center,#141D2D_0%,#090D14_100%)] select-none ${
@@ -701,7 +725,6 @@ const ProductDetailPage = ({ openQuoteModal }) => {
                 />
               </div>
 
-              {/* Bottom Telemetry & Action Bar */}
               <div className="py-3 px-4 sm:px-6 bg-[#06090F] border-t border-white/12 flex flex-col sm:flex-row items-center justify-between gap-2.5 shrink-0">
                 <p className="font-mono text-[0.72rem] sm:text-[0.8rem] text-[#94A3B8] m-0 text-center sm:text-left">
                   {lightbox.desc}

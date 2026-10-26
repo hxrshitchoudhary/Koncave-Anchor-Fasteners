@@ -3,18 +3,20 @@ import { Link, useLocation } from 'react-router-dom';
 import { products } from '../data.js';
 import { IconSearch, IconArrowRight } from '../components/Icons.jsx';
 
+const categories = ['All', ...new Set(products.map((p) => p.category))];
+
 const CatalogPage = ({ openQuoteModal }) => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const initialSearch = searchParams.get('search') || '';
+
   const [searchTerm, setSearchTerm] = useState(initialSearch);
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   useEffect(() => {
-    setSearchTerm(searchParams.get('search') || '');
+    const params = new URLSearchParams(location.search);
+    setSearchTerm(params.get('search') || '');
   }, [location.search]);
-
-  const categories = ['All', ...new Set(products.map((p) => p.category))];
 
   const filtered = products.filter((p) => {
     const term = searchTerm.toLowerCase();
@@ -36,6 +38,7 @@ const CatalogPage = ({ openQuoteModal }) => {
             <span className="section-pre-title !justify-start"><span></span> ENGINEERED FASTENERS</span>
             <h1 className="text-[2.2rem] md:text-[2.6rem] uppercase m-0 text-steel-dark">Product Portfolio</h1>
           </div>
+
           <div className="flex items-center bg-bg-pedestal px-4 py-[11px] rounded-[4px] w-full md:w-[360px] border border-border-light focus-within:border-accent focus-within:bg-white shadow-xs">
             <IconSearch size={20} className="text-text-secondary shrink-0" />
             <input
@@ -69,6 +72,7 @@ const CatalogPage = ({ openQuoteModal }) => {
       <div className="flex flex-col gap-6">
         {filtered.map((product, idx) => {
           const defaultVariant = product.sections?.find((s) => s.type === 'variant')?.rows?.[0];
+
           return (
             <div
               key={product.id}
@@ -79,6 +83,7 @@ const CatalogPage = ({ openQuoteModal }) => {
                 className="w-full md:w-[310px] min-h-[200px] md:min-h-[220px] bg-bg-pedestal bg-cover bg-center border-b-4 md:border-b-0 md:border-r-4 border-accent shrink-0"
                 style={{ backgroundImage: `url(${product.image})` }}
               ></div>
+
               <div className="p-6 md:py-8 md:px-9 flex-1 flex flex-col justify-center">
                 <span className="font-mono text-[0.75rem] font-bold text-accent uppercase tracking-[1.5px] mb-1.5 block">
                   {product.category}
@@ -96,6 +101,7 @@ const CatalogPage = ({ openQuoteModal }) => {
                   ))}
                 </div>
               </div>
+
               <div className="w-full md:w-auto md:min-w-[240px] py-5 px-6 md:p-8 flex flex-col items-center justify-center gap-2.5 bg-bg-pedestal border-t md:border-t-0 md:border-l border-border-light">
                 <span className="font-mono text-[0.72rem] text-text-secondary uppercase">
                   {product.sections?.length || 0} Data Tables
@@ -116,6 +122,7 @@ const CatalogPage = ({ openQuoteModal }) => {
             </div>
           );
         })}
+
         {filtered.length === 0 && (
           <div className="bg-bg-card p-12 text-center border border-border-light rounded-[4px] font-semibold text-text-secondary">
             No products found matching "{searchTerm}" in {selectedCategory}.
@@ -126,4 +133,4 @@ const CatalogPage = ({ openQuoteModal }) => {
   );
 };
 
-export default CatalogPage;1
+export default CatalogPage;

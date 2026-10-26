@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { products } from '../data.js';
+import SEO from '../components/SEO.jsx';
 import {
   IconAward,
   IconArrowRight,
@@ -10,19 +11,69 @@ import {
   IconCheck
 } from '../components/Icons.jsx';
 
+const quickDockSeries = [
+  {
+    code: "SERIES // 01",
+    name: "Heavy-Duty Wedge Anchors",
+    grade: "SS 304 (A2) / SS 316 (A4)",
+    peakLoad: "72,084 KG",
+    sizes: "M6 – M24",
+    application: "Bridges, Metro Viaducts & Structural Steel Columns"
+  },
+  {
+    code: "SERIES // 02",
+    name: "Flush Drop-In Anchors",
+    grade: "Zinc Plated / Stainless Steel",
+    peakLoad: "42,800 KG",
+    sizes: "M6 – M20",
+    application: "HVAC Suspension, Fire Sprinklers & Cable Trays"
+  },
+  {
+    code: "SERIES // 03",
+    name: "Nylon Frame & CSK Anchors",
+    grade: "Virgin PA6 + High-Tensile Screw",
+    peakLoad: "18,400 KG",
+    sizes: "8mm – 10mm",
+    application: "Ventilated Facades, Curtain Walls & Cladding"
+  },
+  {
+    code: "SERIES // 04",
+    name: "High-Load Throughbolts",
+    grade: "Carbon Steel Grade 8.8 / 10.9",
+    peakLoad: "84,480 KG",
+    sizes: "M8 – M24",
+    application: "Seismic Zone IV/V Foundations & Heavy Machinery"
+  }
+];
+
+const tickerItems = [
+  "IS 1608, P1:2022 TENSILE & PULL-OUT TESTED",
+  "STAINLESS STEEL A2 (304) & A4 (316)",
+  "ALKALINE ZINC PLATED (EUROPEAN STANDARD)",
+  "100% BATCH QUALITY & LOAD VERIFIED",
+  "ISO 9001:2015 CERTIFIED ROHTAK FACILITY",
+  "HIGH-LOAD WEDGE, NYLON & DROP-IN ANCHORS"
+];
+
+const performanceMetrics = [
+  { label: "Tensile Load Capacity", value: "Up to 84.48 kN", desc: "Tested under extreme static and dynamic pull loads for high-rise anchoring." },
+  { label: "Corrosion Resistance", value: "1,000+ Hrs Salt Spray", desc: "Coated with heavy-duty alkaline zinc and grade-verified stainless steel." },
+  { label: "Seismic Compliance", value: "Zone IV & V Rated", desc: "Engineered to absorb structural shifts and seismic shock waves securely." },
+  { label: "Dimensional Tolerance", value: "±0.02 mm Precision", desc: "Manufactured using multi-axis CNC cold heading and threading machinery." }
+];
+
+const isMobileOrTablet = () => {
+  if (typeof window === 'undefined') return false;
+  const isSmallOrTabletScreen = window.matchMedia('(max-width: 1024px)').matches;
+  const isIPadOS =
+    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  return isSmallOrTabletScreen || isIPadOS;
+};
+
 const HomePage = ({ openQuoteModal, openInquiryModal }) => {
   const [activeAnchorIdx, setActiveAnchorIdx] = useState(0);
   const videoRef = useRef(null);
-
-  // Detect mobile devices and iPads (including iPad Pro in desktop-request mode)
-  const isMobileOrTablet = () => {
-    if (typeof window === 'undefined') return false;
-    const isSmallOrTabletScreen = window.matchMedia('(max-width: 1024px)').matches;
-    const isIPadOS =
-      /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    return isSmallOrTabletScreen || isIPadOS;
-  };
 
   useEffect(() => {
     const video = videoRef.current;
@@ -45,57 +96,12 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
     };
   }, []);
 
-  // When the video finishes, loop back to 6s on mobile/iPad or 0s on desktop
   const handleVideoEnded = () => {
     const video = videoRef.current;
     if (!video) return;
     video.currentTime = isMobileOrTablet() ? 6 : 0;
     video.play().catch(() => {});
   };
-
-  const quickDockSeries = [
-    {
-      code: "SERIES // 01",
-      name: "Heavy-Duty Wedge Anchors",
-      grade: "SS 304 (A2) / SS 316 (A4)",
-      peakLoad: "72,084 KG",
-      sizes: "M6 – M24",
-      application: "Bridges, Metro Viaducts & Structural Steel Columns"
-    },
-    {
-      code: "SERIES // 02",
-      name: "Flush Drop-In Anchors",
-      grade: "Zinc Plated / Stainless Steel",
-      peakLoad: "42,800 KG",
-      sizes: "M6 – M20",
-      application: "HVAC Suspension, Fire Sprinklers & Cable Trays"
-    },
-    {
-      code: "SERIES // 03",
-      name: "Nylon Frame & CSK Anchors",
-      grade: "Virgin PA6 + High-Tensile Screw",
-      peakLoad: "18,400 KG",
-      sizes: "8mm – 10mm",
-      application: "Ventilated Facades, Curtain Walls & Cladding"
-    },
-    {
-      code: "SERIES // 04",
-      name: "High-Load Throughbolts",
-      grade: "Carbon Steel Grade 8.8 / 10.9",
-      peakLoad: "84,480 KG",
-      sizes: "M8 – M24",
-      application: "Seismic Zone IV/V Foundations & Heavy Machinery"
-    }
-  ];
-
-  const tickerItems = [
-    "IS 1608, P1:2022 TENSILE & PULL-OUT TESTED",
-    "STAINLESS STEEL A2 (304) & A4 (316)",
-    "ALKALINE ZINC PLATED (EUROPEAN STANDARD)",
-    "100% BATCH QUALITY & LOAD VERIFIED",
-    "ISO 9001:2015 CERTIFIED ROHTAK FACILITY",
-    "HIGH-LOAD WEDGE, NYLON & DROP-IN ANCHORS"
-  ];
 
   const whyChooseUs = [
     {
@@ -120,19 +126,47 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
     }
   ];
 
-  const performanceMetrics = [
-    { label: "Tensile Load Capacity", value: "Up to 84.48 kN", desc: "Tested under extreme static and dynamic pull loads for high-rise anchoring." },
-    { label: "Corrosion Resistance", value: "1,000+ Hrs Salt Spray", desc: "Coated with heavy-duty alkaline zinc and grade-verified stainless steel." },
-    { label: "Seismic Compliance", value: "Zone IV & V Rated", desc: "Engineered to absorb structural shifts and seismic shock waves securely." },
-    { label: "Dimensional Tolerance", value: "±0.02 mm Precision", desc: "Manufactured using multi-axis CNC cold heading and threading machinery." }
-  ];
+  const homeSchema = {
+    "@context": "https://schema.org",
+    "@type": "Manufacturer",
+    "name": "Koncave Anchor & Fasteners Pvt. Ltd.",
+    "legalName": "Koncave Anchor & Fasteners Pvt. Ltd.",
+    "url": "https://koncave.co.in/",
+    "logo": "https://koncave.co.in/logo.svg",
+    "description": "Manufacturer of cold-forged wedge anchors, drop-in anchors, and structural fastening solutions compliant with IS 1608:2022 standards.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Manufacturing Unit, Industrial Area",
+      "addressLocality": "Rohtak",
+      "addressRegion": "Haryana",
+      "postalCode": "124001",
+      "addressCountry": "IN"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Structural Anchors Portfolio",
+      "itemListElement": products.map((p) => ({
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Product",
+          "name": p.name,
+          "category": p.category,
+          "url": `https://koncave.co.in/product/${p.id}`
+        }
+      }))
+    }
+  };
 
   return (
     <div className="animate-fade-in bg-bg-main">
-      {/* CINEMATIC VIDEO-FIRST HERO SECTION */}
+      <SEO
+        title="Wedge Anchor & Structural Fastener Manufacturer | Koncave Anchor & Fasteners Pvt. Ltd."
+        description="Direct manufacturer of high-tensile wedge anchors, flush drop-in anchors, and PA6 nylon frame anchors in Stainless Steel (304/316) & Carbon Steel. IS 1608 lab-tested."
+        canonical="https://koncave.co.in/"
+        schemaJson={homeSchema}
+      />
+
       <div className="mt-[56px] md:mt-[64px] lg:h-[calc(100vh-64px)] min-h-[680px] flex flex-col justify-between bg-[#04060A] relative overflow-hidden">
-        
-        {/* High-Visibility Background Video */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <video
             ref={videoRef}
@@ -143,23 +177,15 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
             className="w-full h-full object-cover scale-102 opacity-85 brightness-100 contrast-110 transition-transform duration-1000"
           >
             <source src="/hero-section/video.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
           </video>
-          {/* Targeted left-side vignette so text pops while keeping the right 65% of the video crystal clear */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#04060A]/90 via-[#04060A]/45 to-transparent"></div>
           <div className="absolute inset-0 bg-gradient-to-t from-[#04060A] via-transparent to-[#04060A]/40"></div>
         </div>
 
-        {/* Main Hero Stage */}
         <section className="relative z-10 py-8 lg:py-6 flex-1 flex flex-col justify-between text-white">
           <div className="container-custom flex-1 flex flex-col justify-between">
-            
-            {/* Top Row: Left Headline + Right Floating Live Camera HUD */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start my-auto pt-4">
-              
-              {/* Left Column: Uncluttered High-Impact Typography */}
               <div className="lg:col-span-7 flex flex-col items-start text-left">
-                
                 <div className="inline-flex items-center gap-2 bg-black/45 backdrop-blur-md border border-white/20 px-3.5 py-1.5 rounded-full text-white font-mono text-[0.7rem] font-bold tracking-[1.2px] mb-5 shadow-lg">
                   <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
                   <span>MAKE IN INDIA // ISO 9001:2015 CERTIFIED</span>
@@ -181,14 +207,14 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
                   <button
                     type="button"
                     onClick={openInquiryModal}
-                    className="btn btn-primary !px-6 !py-3.5 !text-[0.85rem] group shadow-[0_12px_30px_-8px_rgba(217,35,42,0.75)] cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1"
+                    className="btn btn-primary !px-6 !py-3.5 !text-[0.85rem] group shadow-[0_12px_30px_-8px_rgba(217,35,42,0.75)] cursor-pointer"
                   >
                     <span>Request Tender Quote</span>
                     <IconArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
                   </button>
                   <Link
                     to="/products"
-                    className="btn btn-outline-white !px-5 !py-3.5 !text-[0.85rem] group bg-black/35 backdrop-blur-md border-white/30 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-white hover:text-steel-dark hover:-translate-y-1"
+                    className="btn btn-outline-white !px-5 !py-3.5 !text-[0.85rem] group bg-black/35 backdrop-blur-md border-white/30 hover:bg-white hover:text-steel-dark"
                   >
                     <span>Explore Catalogue</span>
                     <IconArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
@@ -196,7 +222,7 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
                   <a
                     href="/catalogue/catalogue.pdf"
                     download
-                    className="btn bg-black/40 hover:bg-black/65 text-white border border-white/25 !px-4 !py-3.5 !text-[0.8rem] font-mono backdrop-blur-md transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1"
+                    className="btn bg-black/40 hover:bg-black/65 text-white border border-white/25 !px-4 !py-3.5 !text-[0.8rem] font-mono backdrop-blur-md"
                   >
                     <IconDownload size={15} className="text-accent" />
                     <span>PDF Dossier</span>
@@ -204,9 +230,8 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
                 </div>
               </div>
 
-              {/* Right Column: Minimalist Floating Telemetry Pills */}
               <div className="lg:col-span-5 hidden lg:flex flex-col items-end justify-start gap-3 pt-2">
-                <div className="bg-black/45 backdrop-blur-md border border-white/20 border-r-[3px] border-r-accent px-4 py-2.5 rounded-[4px] text-right font-mono shadow-xl transition-transform duration-500 hover:-translate-x-1">
+                <div className="bg-black/45 backdrop-blur-md border border-white/20 border-r-[3px] border-r-accent px-4 py-2.5 rounded-[4px] text-right font-mono shadow-xl">
                   <div className="flex items-center justify-end gap-2 text-[0.62rem] text-[#22C55E] font-bold tracking-[1px]">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#22C55E] animate-ping"></span>
                     IS 1608:2022 LAB VERIFIED
@@ -216,20 +241,16 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
                   </div>
                 </div>
 
-                <div className="bg-black/45 backdrop-blur-md border border-white/20 border-r-[3px] border-r-white/60 px-4 py-2.5 rounded-[4px] text-right font-mono shadow-xl transition-transform duration-500 hover:-translate-x-1">
+                <div className="bg-black/45 backdrop-blur-md border border-white/20 border-r-[3px] border-r-white/60 px-4 py-2.5 rounded-[4px] text-right font-mono shadow-xl">
                   <span className="block text-[0.6rem] text-[#CBD5E1] uppercase tracking-[1px]">METALLURGY GRADES</span>
                   <strong className="text-[0.82rem] text-white font-bold tracking-[0.5px]">SS 304 (A2) • SS 316 (A4) • CARBON STEEL</strong>
                 </div>
               </div>
-
             </div>
 
-            {/* Bottom Row: Eye-Catching Floating Glassmorphic Command Dock */}
             <div className="mt-8 pt-2">
               <div className="bg-[#06090F]/65 backdrop-blur-xl border border-white/20 rounded-[6px] p-3 sm:p-4 shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
-                  
-                  {/* 4 Interactive Series Pills */}
                   <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-2">
                     {quickDockSeries.map((item, idx) => {
                       const active = idx === activeAnchorIdx;
@@ -256,7 +277,6 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
                     })}
                   </div>
 
-                  {/* Live Spec Readout for Selected Series */}
                   <div className="lg:col-span-5 flex items-center justify-between gap-4 bg-black/45 border border-white/10 px-4 py-2.5 rounded-[4px]">
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 font-mono text-[0.65rem] text-accent font-bold uppercase tracking-[1px]">
@@ -276,15 +296,12 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
                       </strong>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
-
           </div>
         </section>
 
-        {/* Spec Ticker */}
         <div className="relative z-10 bg-black/75 backdrop-blur-md border-t border-white/15 border-b-[3px] border-b-accent overflow-hidden py-2.5 shrink-0">
           <div className="flex w-max animate-ticker">
             {[...tickerItems, ...tickerItems].map((item, i) => (
@@ -298,10 +315,8 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
             ))}
           </div>
         </div>
-
       </div>
 
-      {/* Core Product Series Quick-Select Strip */}
       <section className="py-20 bg-bg-card border-b border-border-light blueprint-grid-light">
         <div className="container-custom">
           <div className="flex justify-between items-end gap-6 mb-10 flex-wrap">
@@ -313,7 +328,7 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
                 Engineered <span className="text-accent">Fastening Systems</span>
               </h2>
             </div>
-            <Link to="/products" className="btn btn-sm btn-outline-dark group transition-all duration-300 hover:-translate-y-0.5">
+            <Link to="/products" className="btn btn-sm btn-outline-dark group">
               Full Searchable Catalogue <IconArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </div>
@@ -328,7 +343,7 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
                 <Link
                   key={product.id}
                   to={`/product/${product.id}`}
-                  className="group bg-white border border-border-light border-t-[3px] border-t-steel-dark rounded-[4px] flex flex-col overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-t-accent hover:-translate-y-2 hover:shadow-xl"
+                  className="group bg-white border border-border-light border-t-[3px] border-t-steel-dark rounded-[4px] flex flex-col overflow-hidden transition-all duration-500 hover:border-t-accent hover:-translate-y-2 hover:shadow-xl"
                 >
                   <div className="h-[165px] bg-bg-pedestal relative overflow-hidden border-b border-border-light">
                     <div
@@ -372,7 +387,6 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
         </div>
       </section>
 
-      {/* Why Infrastructure Leaders Choose Koncave */}
       <section className="py-24 bg-white border-b border-border-light">
         <div className="container-custom">
           <div className="text-center max-w-[720px] mx-auto mb-16">
@@ -387,7 +401,7 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
             {whyChooseUs.map((item, idx) => (
               <div
                 key={idx}
-                className="bg-bg-card border border-border-light border-t-4 border-t-steel-dark p-8 rounded-[6px] shadow-sm hover:border-t-accent hover:-translate-y-1.5 hover:shadow-lg transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] flex flex-col justify-between"
+                className="bg-bg-card border border-border-light border-t-4 border-t-steel-dark p-8 rounded-[6px] shadow-sm hover:border-t-accent hover:-translate-y-1.5 hover:shadow-lg transition-all duration-500 flex flex-col justify-between"
               >
                 <div>
                   <div className="mb-6 bg-steel-dark/5 p-3.5 rounded-[4px] inline-flex">
@@ -409,7 +423,6 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
         </div>
       </section>
 
-      {/* Structural Performance & Load Ratings Summary */}
       <section className="py-24 bg-steel-dark text-white border-b border-white/10 blueprint-grid relative overflow-hidden">
         <div className="container-custom relative z-10">
           <div className="flex justify-between items-end gap-6 mb-14 flex-wrap">
@@ -421,7 +434,7 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
                 Structural Performance & <span className="text-accent">Load Ratings</span>
               </h2>
             </div>
-            <Link to="/products" className="btn btn-sm btn-outline-white group transition-all duration-300 hover:-translate-y-0.5">
+            <Link to="/products" className="btn btn-sm btn-outline-white group">
               Explore Full Technical Data <IconArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </div>
@@ -430,7 +443,7 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
             {performanceMetrics.map((metric, idx) => (
               <div
                 key={idx}
-                className="bg-[#0B101B] border border-white/15 border-t-4 border-t-accent p-8 rounded-[6px] shadow-xl flex flex-col justify-between hover:border-white/40 hover:-translate-y-1.5 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                className="bg-[#0B101B] border border-white/15 border-t-4 border-t-accent p-8 rounded-[6px] shadow-xl flex flex-col justify-between hover:border-white/40 hover:-translate-y-1.5 transition-all duration-500"
               >
                 <div>
                   <span className="font-mono text-[0.68rem] font-bold text-accent tracking-[1.2px] uppercase block mb-3">
@@ -455,7 +468,6 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
         </div>
       </section>
 
-      {/* Industrial CTA Banner */}
       <section className="bg-gradient-to-br from-steel-dark to-[#151F30] border-t-4 border-accent border-b border-white/10 py-20 text-white blueprint-grid">
         <div className="container-custom flex items-center justify-between gap-12 flex-wrap">
           <div className="max-w-[700px]">
@@ -470,7 +482,7 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
           <button
             type="button"
             onClick={openInquiryModal}
-            className="btn btn-primary btn-large group cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 shadow-[0_10px_30px_rgba(217,35,42,0.4)]"
+            className="btn btn-primary btn-large group cursor-pointer shadow-[0_10px_30px_rgba(217,35,42,0.4)]"
           >
             Open Engineering RFQ Form <IconArrowRight size={20} className="transition-transform duration-300 group-hover:translate-x-1" />
           </button>

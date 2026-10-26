@@ -3,6 +3,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import { products, companyInfo } from '../data.js';
 import { IconCheck, IconChevronRight, IconShield, IconMapPin, IconPhone, IconMail } from './Icons.jsx';
 
+const materialGrades = [
+  "Stainless Steel A2 (304)",
+  "Stainless Steel A4 (316)",
+  "Carbon Steel Galvanized (G.I.)"
+];
+
+const inputClass =
+  "w-full px-3.5 py-3 border border-border-light bg-bg-pedestal rounded-[4px] font-sans text-[0.95rem] text-text-primary transition-all focus:outline-none focus:border-accent focus:bg-white focus:ring-3 focus:ring-accent/10";
+
+const labelClass =
+  "font-mono text-[0.76rem] font-bold text-steel-dark uppercase tracking-[0.5px]";
+
 const QuoteModal = ({ quoteData }) => {
   const navigate = useNavigate();
   const [status, setStatus] = useState("idle");
@@ -59,15 +71,10 @@ const QuoteModal = ({ quoteData }) => {
       } else {
         setStatus("error");
       }
-    } catch (err) {
+    } catch {
       setStatus("error");
     }
   };
-
-  const inputClass =
-    "w-full px-3.5 py-3 border border-border-light bg-bg-pedestal rounded-[4px] font-sans text-[0.95rem] text-text-primary transition-all focus:outline-none focus:border-accent focus:bg-white focus:ring-3 focus:ring-accent/10";
-  const labelClass =
-    "font-mono text-[0.76rem] font-bold text-steel-dark uppercase tracking-[0.5px]";
 
   return (
     <div className="min-h-[calc(100vh-88px)] pt-navbar animate-page-reveal">
@@ -90,7 +97,6 @@ const QuoteModal = ({ quoteData }) => {
 
       <section className="section-padding container-custom !pt-4">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.45fr] gap-10 mt-10 items-start">
-          {/* Left Animated Specification Summary & Direct Contact */}
           <aside className="flex flex-col gap-6 animate-slide-left">
             <div className="bg-steel-dark text-white p-8 rounded-[3px] border-t-4 border-accent shadow-md blueprint-grid">
               <h3 className="text-white text-[1.5rem] uppercase mb-4 pb-3 border-b border-white/12">
@@ -164,7 +170,6 @@ const QuoteModal = ({ quoteData }) => {
             </div>
           </aside>
 
-          {/* Right Animated Form Card */}
           <div className="bg-bg-card border border-border-light border-t-[5px] border-t-accent p-7 px-5 md:p-11 rounded-[3px] shadow-md animate-slide-right">
             {status === "success" ? (
               <div className="text-center py-12 px-6">
@@ -234,11 +239,7 @@ const QuoteModal = ({ quoteData }) => {
                   <div className="flex flex-col gap-1.5 text-left">
                     <label className={labelClass}>3. Preferred Material Grade *</label>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
-                      {[
-                        "Stainless Steel A2 (304)",
-                        "Stainless Steel A4 (316)",
-                        "Carbon Steel Galvanized (G.I.)"
-                      ].map((grade) => (
+                      {materialGrades.map((grade) => (
                         <div
                           key={grade}
                           onClick={() => setSelectedGrade(grade)}

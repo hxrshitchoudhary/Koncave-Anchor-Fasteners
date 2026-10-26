@@ -11,18 +11,20 @@ import {
   IconX
 } from '../components/Icons.jsx';
 
-const AboutPage = () => {
-  const factoryPhotos = [
-    { name: "Forging Area", category: "Production", file: "/factory_images/ForgingArea.png", desc: "Heavy-duty hydraulic and mechanical forging lines for high-tensile anchor bodies." },
-    { name: "Rolling Area", category: "Production", file: "/factory_images/RollingArea.png", desc: "Precision thread rolling machinery ensuring accurate metric tolerances (M6 to M16)." },
-    { name: "Tool Room", category: "Engineering", file: "/factory_images/ToolRoom.png", desc: "In-house tooling and die maintenance for absolute dimensional consistency." },
-    { name: "Plating Area", category: "Finishing", file: "/factory_images/PlattingArea.png", desc: "Advanced alkaline galvanizing and stainless passivation surface treatments." },
-    { name: "Packing Area", category: "Dispatch", file: "/factory_images/PackingArea.png", desc: "Rigorous bulk bundling and export-grade pallet packaging for safe transit." },
-    { name: "Automatic Clips Bending Area", category: "Production", file: "/factory_images/AutomaticClipsBendingArea.png", desc: "Automated high-speed clipping lines for wedge anchor expansion sleeves." },
-    { name: "Clip Cut Power Press Area", category: "Production", file: "/factory_images/ClipCutPowerPressArea.png", desc: "High-tonnage power presses for precise shearing and stamping operations." },
-    { name: "Manual Clips Bending Area", category: "Production", file: "/factory_images/ManualClipBendingArea.png", desc: "Specialized manual assembly bays for custom structural fastener configurations." }
-  ];
+const factoryPhotos = [
+  { name: "Forging Area", category: "Production", file: "/factory_images/ForgingArea.png", desc: "Heavy-duty hydraulic and mechanical forging lines for high-tensile anchor bodies." },
+  { name: "Rolling Area", category: "Production", file: "/factory_images/RollingArea.png", desc: "Precision thread rolling machinery ensuring accurate metric tolerances (M6 to M16)." },
+  { name: "Tool Room", category: "Engineering", file: "/factory_images/ToolRoom.png", desc: "In-house tooling and die maintenance for absolute dimensional consistency." },
+  { name: "Plating Area", category: "Finishing", file: "/factory_images/PlattingArea.png", desc: "Advanced alkaline galvanizing and stainless passivation surface treatments." },
+  { name: "Packing Area", category: "Dispatch", file: "/factory_images/PackingArea.png", desc: "Rigorous bulk bundling and export-grade pallet packaging for safe transit." },
+  { name: "Automatic Clips Bending Area", category: "Production", file: "/factory_images/AutomaticClipsBendingArea.png", desc: "Automated high-speed clipping lines for wedge anchor expansion sleeves." },
+  { name: "Clip Cut Power Press Area", category: "Production", file: "/factory_images/ClipCutPowerPressArea.png", desc: "High-tonnage power presses for precise shearing and stamping operations." },
+  { name: "Manual Clips Bending Area", category: "Production", file: "/factory_images/ManualClipBendingArea.png", desc: "Specialized manual assembly bays for custom structural fastener configurations." }
+];
 
+const categories = ['All', 'Production', 'Engineering', 'Finishing', 'Dispatch'];
+
+const AboutPage = () => {
   const [activeTab, setActiveTab] = useState('All');
   const [lightbox, setLightbox] = useState({
     isOpen: false,
@@ -51,6 +53,7 @@ const AboutPage = () => {
     if (lightbox.isOpen) {
       document.body.style.overflow = 'hidden';
       const currentViewport = viewportRef.current;
+
       if (currentViewport) {
         const handleNativeWheel = (e) => {
           e.preventDefault();
@@ -61,6 +64,7 @@ const AboutPage = () => {
             return { ...prev, zoom: next, position: nextPos };
           });
         };
+
         currentViewport.addEventListener('wheel', handleNativeWheel, { passive: false });
         return () => {
           currentViewport.removeEventListener('wheel', handleNativeWheel);
@@ -70,16 +74,15 @@ const AboutPage = () => {
     } else {
       document.body.style.overflow = 'unset';
     }
+
     return () => {
       document.body.style.overflow = 'unset';
     };
   }, [lightbox.isOpen]);
 
-  const categories = ['All', 'Production', 'Engineering', 'Finishing', 'Dispatch'];
-
-  const filteredPhotos = activeTab === 'All' 
-    ? factoryPhotos 
-    : factoryPhotos.filter(p => p.category === activeTab);
+  const filteredPhotos = activeTab === 'All'
+    ? factoryPhotos
+    : factoryPhotos.filter((p) => p.category === activeTab);
 
   const openLightbox = (photo) => {
     setLightbox({
@@ -135,8 +138,6 @@ const AboutPage = () => {
 
   return (
     <div className="pt-navbar bg-bg-main pb-24">
-      
-      {/* Simple, Clean Centered Hero Banner */}
       <section className="bg-steel-dark text-white py-16 md:py-24 border-b-4 border-accent blueprint-grid relative overflow-hidden">
         <div className="container-custom relative z-10 max-w-[860px] text-center mx-auto flex flex-col items-center animate-fade-in-up">
           <span className="section-pre-title text-accent !justify-center mb-3">
@@ -171,7 +172,6 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Clean 4-Metric Bar */}
       <section className="bg-white border-b border-border-light py-10 shadow-sm">
         <div className="container-custom">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
@@ -257,6 +257,7 @@ const AboutPage = () => {
                   </span>
                 </div>
               </div>
+
               <div className="p-4 bg-white flex flex-col gap-1.5 flex-1 justify-between">
                 <div>
                   <h4 className="font-display text-[1.15rem] uppercase text-steel-dark m-0 tracking-[0.5px]">
@@ -315,6 +316,7 @@ const AboutPage = () => {
           <div className="section-pre-title !justify-start"><span></span> THE ENGINEERING STANDARD</div>
           <h2 className="text-[2.2rem] md:text-[3rem] uppercase mb-0">Our Core Values</h2>
         </div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {aboutUsData.values.map((v, i) => (
             <div
