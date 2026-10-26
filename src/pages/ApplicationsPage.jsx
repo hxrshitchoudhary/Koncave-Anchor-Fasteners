@@ -1,31 +1,112 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { companyInfo } from '../data.js';
-import { IconZoomIn, IconX, IconDownload } from '../components/Icons.jsx';
+import { IconZoomIn, IconX } from '../components/Icons.jsx';
 
 const ApplicationsPage = () => {
-  const [lightboxImage, setLightboxImage] = useState(null);
+  const [lightbox, setLightbox] = useState({
+    isOpen: false,
+    imageSrc: '',
+    title: '',
+    desc: '',
+    zoom: 1,
+    position: { x: 0, y: 0 },
+    isDragging: false,
+    dragStart: { x: 0, y: 0 }
+  });
+
+  const viewportRef = useRef(null);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape' && lightboxImage) {
-        setLightboxImage(null);
+      if (e.key === 'Escape' && lightbox.isOpen) {
+        setLightbox((prev) => ({ ...prev, isOpen: false, zoom: 1, position: { x: 0, y: 0 } }));
       }
     };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [lightbox.isOpen]);
 
-    if (lightboxImage) {
+  useEffect(() => {
+    if (lightbox.isOpen) {
       document.body.style.overflow = 'hidden';
-      window.addEventListener('keydown', handleKeyDown);
+      const currentViewport = viewportRef.current;
+      if (currentViewport) {
+        const handleNativeWheel = (e) => {
+          e.preventDefault();
+          const delta = e.deltaY < 0 ? 0.2 : -0.2;
+          setLightbox((prev) => {
+            const next = Math.min(3, Math.max(1, Number((prev.zoom + delta).toFixed(2))));
+            const nextPos = next === 1 ? { x: 0, y: 0 } : prev.position;
+            return { ...prev, zoom: next, position: nextPos };
+          });
+        };
+        currentViewport.addEventListener('wheel', handleNativeWheel, { passive: false });
+        return () => {
+          currentViewport.removeEventListener('wheel', handleNativeWheel);
+          document.body.style.overflow = 'unset';
+        };
+      }
     } else {
       document.body.style.overflow = 'unset';
     }
-
     return () => {
       document.body.style.overflow = 'unset';
-      window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [lightboxImage]);
+  }, [lightbox.isOpen]);
+
+  const openLightbox = (ind) => {
+    setLightbox({
+      isOpen: true,
+      imageSrc: ind.image,
+      title: `${ind.title} — ${ind.subtitle}`,
+      desc: ind.desc,
+      zoom: 1,
+      position: { x: 0, y: 0 },
+      isDragging: false,
+      dragStart: { x: 0, y: 0 }
+    });
+  };
+
+  const closeLightbox = () => {
+    setLightbox((prev) => ({ ...prev, isOpen: false, zoom: 1, position: { x: 0, y: 0 } }));
+  };
+
+  const adjustZoom = (delta) => {
+    setLightbox((prev) => {
+      const next = Math.min(3, Math.max(1, Number((prev.zoom + delta).toFixed(2))));
+      const nextPos = next === 1 ? { x: 0, y: 0 } : prev.position;
+      return { ...prev, zoom: next, position: nextPos };
+    });
+  };
+
+  const handleMouseDown = (e) => {
+    if (lightbox.zoom <= 1) return;
+    e.preventDefault();
+    setLightbox((prev) => ({
+      ...prev,
+      isDragging: true,
+      dragStart: { x: e.clientX - prev.position.x, y: e.clientY - prev.position.y }
+    }));
+  };
+
+  const handleMouseMove = (e) => {
+    if (!lightbox.isDragging || lightbox.zoom <= 1) return;
+    e.preventDefault();
+    setLightbox((prev) => ({
+      ...prev,
+      position: {
+        x: e.clientX - prev.dragStart.x,
+        y: e.clientY - prev.dragStart.y
+      }
+    }));
+  };
+
+  const handleMouseUp = () => {
+    if (!lightbox.isDragging) return;
+    setLightbox((prev) => ({ ...prev, isDragging: false }));
+  };
 
   const industries = [
     {
@@ -105,7 +186,7 @@ const ApplicationsPage = () => {
             >
               {/* Image Preview Container with Zoom Trigger */}
               <div
-                onClick={() => setLightboxImage(ind.image)}
+                onClick={() => openLightbox(ind)}
                 className="h-[280px] bg-slate-100 relative overflow-hidden cursor-pointer border-b border-border-light flex items-center justify-center group"
               >
                 <img
@@ -141,7 +222,7 @@ const ApplicationsPage = () => {
                   <span>IS 1608 COMPLIANT</span>
                   <button
                     type="button"
-                    onClick={() => setLightboxImage(ind.image)}
+                    onClick={() => openLightbox(ind)}
                     className="inline-flex items-center gap-1 text-steel-dark hover:text-accent cursor-pointer"
                   >
                     ZOOM IMAGE <IconZoomIn size={13} />
@@ -174,38 +255,57 @@ const ApplicationsPage = () => {
         </div>
       </section>
 
-      {/* Full-Screen Zoom Lightbox Modal via Portal */}
-      {lightboxImage &&
+      {/* Unified Full-Screen Zoom & Pan Lightbox Modal via Portal */}
+      {lightbox.isOpen &&
         createPortal(
           <div
             className="fixed inset-0 z-[100000] bg-[#05080E]/92 backdrop-blur-md flex items-center justify-center p-4 md:p-6 animate-fade-in"
-            onClick={() => setLightboxImage(null)}
+            onClick={closeLightbox}
           >
             <div
-              className="w-full max-w-[1000px] h-[90vh] bg-steel-dark border border-white/18 border-t-4 border-t-accent rounded-[4px] shadow-2xl flex flex-col overflow-hidden text-white blueprint-grid"
+              className="w-full max-w-[1200px] h-[90vh] bg-steel-dark border border-white/18 border-t-4 border-t-accent rounded-[4px] shadow-2xl flex flex-col overflow-hidden text-white blueprint-grid"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex justify-between items-center py-3.5 px-6 bg-[#06090F] border-b border-white/12 shrink-0">
                 <div>
                   <span className="font-mono text-[0.66rem] font-bold text-accent tracking-[1.2px] block">
-                    SECTOR APPLICATION VIEWER
+                    SECTOR APPLICATION VIEWER {lightbox.zoom > 1 ? "// (DRAG TO PAN)" : ""}
                   </span>
-                  <h3 className="text-white text-[1.2rem] uppercase m-0 leading-tight">
-                    High-Resolution Field Inspection
+                  <h3 className="text-white text-[1.35rem] uppercase m-0 leading-tight">
+                    {lightbox.title}
                   </h3>
                 </div>
-                <div className="flex items-center gap-3">
-                  <a
-                    href={lightboxImage}
-                    download
-                    className="btn btn-sm btn-primary"
-                  >
-                    <IconDownload size={15} /> Download Image
-                  </a>
+                <div className="flex items-center gap-2">
                   <button
                     type="button"
-                    className="bg-accent/20 border border-accent/50 text-white w-[36px] h-[36px] rounded-[3px] inline-flex items-center justify-center cursor-pointer hover:bg-accent transition-all"
-                    onClick={() => setLightboxImage(null)}
+                    className="bg-steel-mid border border-white/18 text-white py-1.5 px-3 rounded-[3px] font-mono text-[0.8rem] font-bold cursor-pointer transition-all hover:bg-accent disabled:opacity-40"
+                    onClick={() => adjustZoom(-0.25)}
+                    disabled={lightbox.zoom <= 1}
+                  >
+                    −
+                  </button>
+                  <span className="font-mono text-[0.8rem] font-bold text-[#CBD5E1] min-w-[50px] text-center">
+                    {Math.round(lightbox.zoom * 100)}%
+                  </span>
+                  <button
+                    type="button"
+                    className="bg-steel-mid border border-white/18 text-white py-1.5 px-3 rounded-[3px] font-mono text-[0.8rem] font-bold cursor-pointer transition-all hover:bg-accent disabled:opacity-40"
+                    onClick={() => adjustZoom(0.25)}
+                    disabled={lightbox.zoom >= 3}
+                  >
+                    +
+                  </button>
+                  <button
+                    type="button"
+                    className="bg-steel-mid border border-white/18 text-white py-1.5 px-3 rounded-[3px] font-mono text-[0.8rem] font-bold cursor-pointer transition-all hover:bg-accent"
+                    onClick={() => setLightbox((prev) => ({ ...prev, zoom: 1, position: { x: 0, y: 0 } }))}
+                  >
+                    RESET
+                  </button>
+                  <button
+                    type="button"
+                    className="bg-accent/20 border border-accent/50 text-white w-[36px] h-[36px] rounded-[3px] inline-flex items-center justify-center cursor-pointer ml-2 hover:bg-accent transition-all"
+                    onClick={closeLightbox}
                     aria-label="Close Lightbox"
                   >
                     <IconX size={20} />
@@ -213,17 +313,30 @@ const ApplicationsPage = () => {
                 </div>
               </div>
 
-              <div className="flex-1 bg-[radial-gradient(circle_at_center,#141D2D_0%,#090D14_100%)] p-6 flex items-center justify-center overflow-auto">
+              <div
+                ref={viewportRef}
+                className={`flex-1 relative overflow-hidden flex flex-col items-center justify-center p-6 bg-[radial-gradient(circle_at_center,#141D2D_0%,#090D14_100%)] select-none ${
+                  lightbox.zoom > 1 ? (lightbox.isDragging ? 'cursor-grabbing' : 'cursor-grab') : 'cursor-default'
+                }`}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+              >
                 <img
-                  src={lightboxImage}
-                  alt="Application Zoom"
-                  className="max-w-full max-h-[74vh] object-contain rounded-[3px] shadow-2xl bg-black/40"
+                  src={lightbox.imageSrc}
+                  alt={lightbox.title}
+                  draggable="false"
+                  className="max-w-[90%] max-h-[72vh] object-contain rounded-[3px] shadow-2xl transition-transform duration-75 ease-out origin-center pointer-events-none"
+                  style={{
+                    transform: `scale(${lightbox.zoom}) translate(${lightbox.position.x / lightbox.zoom}px, ${lightbox.position.y / lightbox.zoom}px)`
+                  }}
                 />
               </div>
 
               <div className="py-3 px-6 bg-[#06090F] border-t border-white/12 text-center shrink-0">
-                <p className="font-mono text-[0.78rem] text-[#94A3B8] m-0">
-                  {companyInfo.legalName} — Industrial Sector Application Gallery
+                <p className="font-mono text-[0.8rem] text-[#94A3B8] m-0">
+                  {lightbox.desc} {lightbox.zoom > 1 ? "— Drag image to pan around, use mouse wheel to zoom" : "— Use mouse wheel or '+' button to zoom"}
                 </p>
               </div>
             </div>

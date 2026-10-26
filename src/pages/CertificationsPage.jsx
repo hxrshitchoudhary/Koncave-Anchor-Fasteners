@@ -1,9 +1,113 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { companyInfo } from '../data.js';
-import { IconShield, IconAward, IconCheck, IconDownload, IconFileText, IconArrowRight } from '../components/Icons.jsx';
+import { IconDownload, IconZoomIn, IconX } from '../components/Icons.jsx';
 
 const CertificationsPage = () => {
+  const [lightbox, setLightbox] = useState({
+    isOpen: false,
+    imageSrc: '',
+    title: '',
+    desc: '',
+    zoom: 1,
+    position: { x: 0, y: 0 },
+    isDragging: false,
+    dragStart: { x: 0, y: 0 }
+  });
+
+  const viewportRef = useRef(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && lightbox.isOpen) {
+        setLightbox((prev) => ({ ...prev, isOpen: false, zoom: 1, position: { x: 0, y: 0 } }));
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [lightbox.isOpen]);
+
+  useEffect(() => {
+    if (lightbox.isOpen) {
+      document.body.style.overflow = 'hidden';
+      const currentViewport = viewportRef.current;
+      if (currentViewport) {
+        const handleNativeWheel = (e) => {
+          e.preventDefault();
+          const delta = e.deltaY < 0 ? 0.2 : -0.2;
+          setLightbox((prev) => {
+            const next = Math.min(3, Math.max(1, Number((prev.zoom + delta).toFixed(2))));
+            const nextPos = next === 1 ? { x: 0, y: 0 } : prev.position;
+            return { ...prev, zoom: next, position: nextPos };
+          });
+        };
+        currentViewport.addEventListener('wheel', handleNativeWheel, { passive: false });
+        return () => {
+          currentViewport.removeEventListener('wheel', handleNativeWheel);
+          document.body.style.overflow = 'unset';
+        };
+      }
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [lightbox.isOpen]);
+
+  const openLightbox = (cert) => {
+    setLightbox({
+      isOpen: true,
+      imageSrc: cert.image,
+      title: cert.displayName,
+      desc: cert.desc,
+      zoom: 1,
+      position: { x: 0, y: 0 },
+      isDragging: false,
+      dragStart: { x: 0, y: 0 }
+    });
+  };
+
+  const closeLightbox = () => {
+    setLightbox((prev) => ({ ...prev, isOpen: false, zoom: 1, position: { x: 0, y: 0 } }));
+  };
+
+  const adjustZoom = (delta) => {
+    setLightbox((prev) => {
+      const next = Math.min(3, Math.max(1, Number((prev.zoom + delta).toFixed(2))));
+      const nextPos = next === 1 ? { x: 0, y: 0 } : prev.position;
+      return { ...prev, zoom: next, position: nextPos };
+    });
+  };
+
+  const handleMouseDown = (e) => {
+    if (lightbox.zoom <= 1) return;
+    e.preventDefault();
+    setLightbox((prev) => ({
+      ...prev,
+      isDragging: true,
+      dragStart: { x: e.clientX - prev.position.x, y: e.clientY - prev.position.y }
+    }));
+  };
+
+  const handleMouseMove = (e) => {
+    if (!lightbox.isDragging || lightbox.zoom <= 1) return;
+    e.preventDefault();
+    setLightbox((prev) => ({
+      ...prev,
+      position: {
+        x: e.clientX - prev.dragStart.x,
+        y: e.clientY - prev.dragStart.y
+      }
+    }));
+  };
+
+  const handleMouseUp = () => {
+    if (!lightbox.isDragging) return;
+    setLightbox((prev) => ({ ...prev, isDragging: false }));
+  };
+
   const certificates = [
     {
       id: "quality",
@@ -64,17 +168,25 @@ const CertificationsPage = () => {
               className="bg-white border border-border-light border-t-4 border-t-steel-dark rounded-[6px] shadow-sm flex flex-col justify-between overflow-hidden hover:border-t-accent hover:shadow-xl transition-all group h-full"
             >
               {/* Portrait Certificate Display Container */}
-              <div className="w-full aspect-[1/1.35] bg-[#0B101B] relative overflow-hidden border-b border-border-light flex items-center justify-center p-3">
+              <div
+                onClick={() => openLightbox(cert)}
+                className="w-full aspect-[1/1.35] bg-[#0B101B] relative overflow-hidden border-b border-border-light flex items-center justify-center p-3 cursor-zoom-in group"
+              >
                 <img
                   src={cert.image}
                   alt={cert.displayName}
-                  className="w-full h-full object-contain bg-white rounded-[2px] shadow-md"
+                  className="w-full h-full object-contain bg-white rounded-[2px] shadow-md transition-transform duration-500 group-hover:scale-103"
                   onError={(e) => {
                     e.target.style.display = 'none';
                   }}
                 />
                 <div className="absolute top-4 left-4 bg-steel-dark/95 text-white font-mono text-[0.65rem] px-2.5 py-1 rounded-[2px] uppercase font-bold tracking-[1px] shadow-sm border border-white/15">
                   VERIFIED ISO
+                </div>
+                <div className="absolute inset-0 bg-steel-dark/45 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
+                  <span className="bg-steel-dark text-white font-mono text-[0.75rem] font-bold px-3.5 py-2 rounded-[3px] border border-white/20 inline-flex items-center gap-1.5 shadow-xl">
+                    <IconZoomIn size={16} className="text-accent" /> Inspect Certificate
+                  </span>
                 </div>
               </div>
 
@@ -92,13 +204,20 @@ const CertificationsPage = () => {
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-dashed border-border-subtle flex items-center justify-end gap-3 mt-auto">
+                <div className="pt-4 border-t border-dashed border-border-subtle flex items-center justify-between gap-2.5 mt-auto">
+                  <button
+                    type="button"
+                    onClick={() => openLightbox(cert)}
+                    className="btn btn-sm btn-outline-dark flex-1 justify-center"
+                  >
+                    <IconZoomIn size={15} /> Zoom
+                  </button>
                   <a
                     href={cert.image}
                     download
-                    className="btn btn-sm btn-primary w-full justify-center"
+                    className="btn btn-sm btn-primary flex-1 justify-center"
                   >
-                    <IconDownload size={15} /> Download Official Document
+                    <IconDownload size={15} /> Download
                   </a>
                 </div>
               </div>
@@ -127,6 +246,93 @@ const CertificationsPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Unified Full-Screen Zoom & Pan Lightbox via Portal */}
+      {lightbox.isOpen &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-[100000] bg-[#05080E]/92 backdrop-blur-md flex items-center justify-center p-4 md:p-6 animate-fade-in"
+            onClick={closeLightbox}
+          >
+            <div
+              className="w-full max-w-[1200px] h-[90vh] bg-steel-dark border border-white/18 border-t-4 border-t-accent rounded-[4px] shadow-2xl flex flex-col overflow-hidden text-white blueprint-grid"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-center py-3.5 px-6 bg-[#06090F] border-b border-white/12 shrink-0">
+                <div>
+                  <span className="font-mono text-[0.66rem] font-bold text-accent tracking-[1.2px] block">
+                    OFFICIAL ISO CERTIFICATION {lightbox.zoom > 1 ? "// (DRAG TO PAN)" : ""}
+                  </span>
+                  <h3 className="text-white text-[1.35rem] uppercase m-0 leading-tight">{lightbox.title}</h3>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    className="bg-steel-mid border border-white/18 text-white py-1.5 px-3 rounded-[3px] font-mono text-[0.8rem] font-bold cursor-pointer transition-all hover:bg-accent disabled:opacity-40"
+                    onClick={() => adjustZoom(-0.25)}
+                    disabled={lightbox.zoom <= 1}
+                  >
+                    −
+                  </button>
+                  <span className="font-mono text-[0.8rem] font-bold text-[#CBD5E1] min-w-[50px] text-center">
+                    {Math.round(lightbox.zoom * 100)}%
+                  </span>
+                  <button
+                    type="button"
+                    className="bg-steel-mid border border-white/18 text-white py-1.5 px-3 rounded-[3px] font-mono text-[0.8rem] font-bold cursor-pointer transition-all hover:bg-accent disabled:opacity-40"
+                    onClick={() => adjustZoom(0.25)}
+                    disabled={lightbox.zoom >= 3}
+                  >
+                    +
+                  </button>
+                  <button
+                    type="button"
+                    className="bg-steel-mid border border-white/18 text-white py-1.5 px-3 rounded-[3px] font-mono text-[0.8rem] font-bold cursor-pointer transition-all hover:bg-accent"
+                    onClick={() => setLightbox((prev) => ({ ...prev, zoom: 1, position: { x: 0, y: 0 } }))}
+                  >
+                    RESET
+                  </button>
+                  <button
+                    type="button"
+                    className="bg-accent/20 border border-accent/50 text-white w-[36px] h-[36px] rounded-[3px] inline-flex items-center justify-center cursor-pointer ml-2 hover:bg-accent transition-all"
+                    onClick={closeLightbox}
+                    aria-label="Close Lightbox"
+                  >
+                    <IconX size={20} />
+                  </button>
+                </div>
+              </div>
+
+              <div
+                ref={viewportRef}
+                className={`flex-1 relative overflow-hidden flex flex-col items-center justify-center p-6 bg-[radial-gradient(circle_at_center,#141D2D_0%,#090D14_100%)] select-none ${
+                  lightbox.zoom > 1 ? (lightbox.isDragging ? 'cursor-grabbing' : 'cursor-grab') : 'cursor-default'
+                }`}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+              >
+                <img
+                  src={lightbox.imageSrc}
+                  alt={lightbox.title}
+                  draggable="false"
+                  className="max-w-[90%] max-h-[72vh] object-contain bg-white p-2 rounded-[3px] shadow-2xl transition-transform duration-75 ease-out origin-center pointer-events-none"
+                  style={{
+                    transform: `scale(${lightbox.zoom}) translate(${lightbox.position.x / lightbox.zoom}px, ${lightbox.position.y / lightbox.zoom}px)`
+                  }}
+                />
+              </div>
+
+              <div className="py-3 px-6 bg-[#06090F] border-t border-white/12 text-center shrink-0">
+                <p className="font-mono text-[0.8rem] text-[#94A3B8] m-0">
+                  {lightbox.desc} {lightbox.zoom > 1 ? "— Drag image to pan around, use mouse wheel to zoom" : "— Use mouse wheel or '+' button to zoom"}
+                </p>
+              </div>
+            </div>
+          </div>,
+          document.body
+        )}
 
     </div>
   );

@@ -105,7 +105,7 @@ const Navbar = ({ openInquiryModal }) => {
             }}
             className="btn btn-primary !py-2.5 !px-5 !text-[0.82rem] group"
           >
-            <span>Bulk Inquiry</span>
+            <span>Enquire Now</span>
             <IconArrowRight size={15} className="transition-transform duration-250 group-hover:translate-x-1" />
           </button>
         </div>

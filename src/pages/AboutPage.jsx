@@ -2,7 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { companyInfo, aboutUsData } from '../data.js';
-import { IconShield, IconFactory, IconAward, IconArrowRight, IconZoomIn, IconX } from '../components/Icons.jsx';
+import {
+  IconShield,
+  IconFactory,
+  IconAward,
+  IconArrowRight,
+  IconZoomIn,
+  IconX
+} from '../components/Icons.jsx';
 
 const AboutPage = () => {
   const factoryPhotos = [
@@ -127,60 +134,44 @@ const AboutPage = () => {
   };
 
   return (
-    <div className="bg-bg-main pb-24">
-      <section className="bg-steel-dark text-white py-16 md:py-24 mt-[92px] md:mt-[100px] border-b-4 border-accent blueprint-grid relative overflow-hidden">
-        <div className="container-custom relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-7 flex flex-col items-start animate-fade-in-up">
-            <span className="section-pre-title !justify-start !text-accent">
-              <span></span> CORPORATE HERITAGE & PLANT CAPABILITY
-            </span>
-            <div className="inline-flex items-center gap-2 font-mono text-[0.78rem] font-bold text-white bg-white/5 px-3.5 py-1.5 border border-white/15 rounded-[3px] tracking-[1.5px] uppercase mb-6">
-              {companyInfo.legalName} // ROHTAK, HARYANA
-            </div>
-            <h1 className="text-[2.6rem] sm:text-[3.8rem] xl:text-[4.4rem] uppercase leading-[0.96] mb-6 text-white">
-              Engineering <br />
-              <span className="text-transparent-outline">Zero-Slippage</span>{' '}
-              <span className="bg-gradient-to-r from-[#FF3B42] to-[#D9232A] bg-clip-text text-transparent">
-                Confidence.
-              </span>
-            </h1>
-            <p className="text-[#94A3B8] text-[1.05rem] md:text-[1.15rem] leading-[1.7] max-w-[640px] border-l-2 border-accent pl-4 mb-8">
-              {aboutUsData.hero.subtitle} As a proud participant in the "{companyInfo.initiative}" mission, we forge high-performance structural fastners that sustain India's most demanding infrastructure.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Link to="/products" className="btn btn-primary group">
-                <span>Explore Technical Catalogue</span>
-                <IconArrowRight size={18} className="transition-transform duration-250 group-hover:translate-x-1" />
-              </Link>
-              <Link to="/inquiry" className="btn btn-outline-white">
-                Request Engineering Submittal
-              </Link>
-            </div>
+    <div className="pt-navbar bg-bg-main pb-24">
+      
+      {/* Simple, Clean Centered Hero Banner */}
+      <section className="bg-steel-dark text-white py-16 md:py-24 border-b-4 border-accent blueprint-grid relative overflow-hidden">
+        <div className="container-custom relative z-10 max-w-[860px] text-center mx-auto flex flex-col items-center animate-fade-in-up">
+          <span className="section-pre-title text-accent !justify-center mb-3">
+            <span></span> CORPORATE HERITAGE & PLANT CAPABILITY <span></span>
+          </span>
+
+          <div className="inline-flex items-center gap-2 font-mono text-[0.75rem] font-bold text-[#CBD5E1] bg-white/5 px-3.5 py-1.5 border border-white/15 rounded-[3px] tracking-[1.5px] uppercase mb-6">
+            {companyInfo.legalName} // ROHTAK, HARYANA
           </div>
 
-          <div className="lg:col-span-5 relative animate-fade-in">
-            <div className="relative rounded-[6px] bg-gradient-to-b from-white/15 to-white/5 p-[1px] shadow-2xl">
-              <div 
-                className="relative bg-[#0B101B] rounded-[5px] overflow-hidden p-3 cursor-zoom-in group"
-                onClick={() => openLightbox(factoryPhotos[0])}
-              >
-                <div className="absolute top-4 left-4 z-10 bg-[#06090F]/90 backdrop-blur-md px-3 py-1.5 rounded-[3px] border border-white/15 font-mono text-[0.7rem] text-white">
-                  ISO 9001:2015 CERTIFIED UNIT
-                </div>
-                <img
-                  src="/factory_images/ForgingArea.png"
-                  alt="Koncave Forging Plant Floor"
-                  className="w-full h-[380px] object-cover rounded-[3px] contrast-110 brightness-90 transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute bottom-4 right-4 z-10 bg-steel-dark/90 text-white font-mono text-[0.72rem] px-3 py-1.5 rounded-[3px] border border-white/20 inline-flex items-center gap-1.5">
-                  <IconZoomIn size={15} className="text-accent" /> Inspect Plant Floor
-                </div>
-              </div>
-            </div>
+          <h1 className="text-[2.6rem] sm:text-[3.8rem] md:text-[4.2rem] uppercase leading-[1.02] mb-5 text-white">
+            Engineering{' '}
+            <span className="text-transparent-outline">Zero-Slippage</span>{' '}
+            <span className="bg-gradient-to-r from-[#FF3B42] to-[#D9232A] bg-clip-text text-transparent">
+              Confidence.
+            </span>
+          </h1>
+
+          <p className="text-[#94A3B8] text-[1.02rem] md:text-[1.12rem] leading-[1.65] max-w-[680px] mx-auto mb-8">
+            {aboutUsData.hero.subtitle} As a proud participant in the &ldquo;{companyInfo.initiative}&rdquo; mission, we forge high-performance structural fasteners that sustain India&apos;s most demanding infrastructure.
+          </p>
+
+          <div className="flex flex-wrap justify-center gap-3.5">
+            <Link to="/products" className="btn btn-primary group">
+              <span>Explore Technical Catalogue</span>
+              <IconArrowRight size={18} className="transition-transform duration-250 group-hover:translate-x-1" />
+            </Link>
+            <Link to="/inquiry" className="btn btn-outline-white">
+              Request Engineering Submittal
+            </Link>
           </div>
         </div>
       </section>
 
+      {/* Clean 4-Metric Bar */}
       <section className="bg-white border-b border-border-light py-10 shadow-sm">
         <div className="container-custom">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
