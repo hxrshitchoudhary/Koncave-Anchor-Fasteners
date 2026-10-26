@@ -29,18 +29,23 @@ const Footer = () => {
           <Link to="/" className="no-underline flex items-center gap-3 mb-3">
             <img
               src="/images/logo.png"
-              alt="Koncave"
+              alt="Koncave Anchor & Fasteners Pvt. Ltd."
               className="max-h-[34px] w-auto object-contain"
               onError={(e) => {
                 e.target.style.display = 'none';
               }}
             />
-            <span className="font-display text-[1.6rem] font-black tracking-[0.5px] text-white uppercase leading-[0.95] m-0">
-              {companyInfo.name}
-            </span>
+            <div className="flex flex-col">
+              <span className="font-display text-[1.5rem] font-black tracking-[0.5px] text-white uppercase leading-[0.95] m-0">
+                KONCAVE
+              </span>
+              <span className="font-mono text-[0.58rem] font-bold tracking-[1.2px] text-accent uppercase mt-0.5">
+                ANCHOR &amp; FASTENERS PVT. LTD.
+              </span>
+            </div>
           </Link>
           <p className="text-[#94A3B8] text-[0.86rem] mb-4 leading-[1.6]">
-            A dedicated participant in the "Make in India" initiative, forging high-performance structural anchoring and fastening solutions.
+            A dedicated participant in the &ldquo;Make in India&rdquo; initiative, forging high-performance structural anchoring and fastening solutions.
           </p>
           <div className="flex flex-wrap gap-2">
             <span className="inline-flex items-center gap-1.5 bg-accent/15 border border-accent/40 px-2.5 py-1 rounded-[3px] font-mono text-[0.7rem] font-bold text-white">
@@ -65,7 +70,7 @@ const Footer = () => {
             </li>
             <li>
               <Link to="/about" className={linkClass}>
-                <span className="text-accent font-bold">›</span> About Us & Values
+                <span className="text-accent font-bold">›</span> About Us &amp; Values
               </Link>
             </li>
             <li>
@@ -133,10 +138,10 @@ const Footer = () => {
       </div>
 
       {/* Bottom Copyright Strip */}
-      <div className="bg-[#05080C] py-4 text-center text-steel-light font-mono text-[0.72rem]">
+      <div className="bg-[#05080E] py-4 text-center text-steel-light font-mono text-[0.72rem]">
         <div className="container-custom flex flex-col sm:flex-row items-center justify-between gap-2 px-4">
-          <p className="m-0">&copy; 2026 {companyInfo.legalName}. All rights reserved.</p>
-          <p className="m-0 text-[#64748B]">ISO 9001:2015 Certified // {companyInfo.website}</p>
+          <p className="m-0">&copy; 2026 Koncave Anchor &amp; Fasteners Pvt. Ltd. All rights reserved.</p>
+          <p className="m-0 text-[#64748B]">// {companyInfo.website}</p>
         </div>
       </div>
     </footer>

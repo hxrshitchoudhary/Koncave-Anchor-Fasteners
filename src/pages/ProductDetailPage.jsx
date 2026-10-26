@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Link, useParams } from 'react-router-dom';
-import { products, companyInfo } from '../data.js';
+import { products } from '../data.js';
 import {
   IconChevronRight,
   IconCheck,
@@ -184,15 +184,15 @@ const ProductDetailPage = ({ openQuoteModal }) => {
           <p className="text-[0.95rem] sm:text-[1.02rem] text-text-secondary mb-6">{product.description}</p>
           <div>
             <h3 className="font-mono text-[0.76rem] sm:text-[0.8rem] uppercase tracking-[1px] text-text-secondary border-b border-border-light pb-2 mb-3">
-              Approved By Infrastructure Authorities
+              Available Material Grades
             </h3>
             <div className="flex gap-2 flex-wrap">
-              {companyInfo.approvals.map((app) => (
+              {product.materials?.map((mat) => (
                 <span
-                  key={app}
+                  key={mat}
                   className="bg-steel-dark text-white px-3 sm:px-3.5 py-[5px] rounded-[3px] font-mono text-[0.72rem] sm:text-[0.76rem] font-bold tracking-[1px]"
                 >
-                  {app}
+                  {mat}
                 </span>
               ))}
             </div>

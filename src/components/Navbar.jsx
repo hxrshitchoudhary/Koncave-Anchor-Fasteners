@@ -40,7 +40,7 @@ const Navbar = ({ openInquiryModal }) => {
             </span>
             <span className="hidden md:inline text-white/20">|</span>
             <span className="hidden md:inline text-[#94A3B8] truncate">
-              APPROVED VENDOR: NBCC, CPWD, PWD, RLDA, DMRC
+              IS 1608, P1:2022 COMPLIANT STRUCTURAL FASTENERS
             </span>
           </div>
           <div className="flex items-center gap-4 shrink-0">
@@ -81,7 +81,7 @@ const Navbar = ({ openInquiryModal }) => {
               KONCAVE
             </span>
             <span className="font-mono text-[0.56rem] sm:text-[0.66rem] font-bold tracking-[1.8px] sm:tracking-[2.2px] text-accent uppercase truncate mt-0.5">
-              ANCHOR FASTENERS
+              ANCHOR FASTENERS Pvt. LTD.
             </span>
           </div>
         </Link>
@@ -105,7 +105,7 @@ const Navbar = ({ openInquiryModal }) => {
             }}
             className="btn btn-primary !py-2.5 !px-5 !text-[0.82rem] group"
           >
-            <span>Enquire Now</span>
+            <span>Bulk Inquiry</span>
             <IconArrowRight size={15} className="transition-transform duration-250 group-hover:translate-x-1" />
           </button>
         </div>

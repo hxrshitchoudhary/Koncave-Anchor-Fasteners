@@ -184,8 +184,8 @@ const AboutPage = () => {
               <span className="font-mono text-[0.75rem] font-bold text-accent uppercase tracking-[1px]">Lab Standard Compliance</span>
             </div>
             <div className="p-4 border-r border-border-subtle last:border-r-0">
-              <span className="font-display text-[2.8rem] font-black text-steel-dark block">5+</span>
-              <span className="font-mono text-[0.75rem] font-bold text-accent uppercase tracking-[1px]">Govt Infrastructure Approvals</span>
+              <span className="font-display text-[2.8rem] font-black text-steel-dark block">ISO 9001</span>
+              <span className="font-mono text-[0.75rem] font-bold text-accent uppercase tracking-[1px]">Certified Quality System</span>
             </div>
             <div className="p-4">
               <span className="font-display text-[2.8rem] font-black text-steel-dark block">ROHTAK</span>
@@ -310,7 +310,7 @@ const AboutPage = () => {
         </div>
       </section>
 
-      <section className="container-custom mb-16">
+      <section className="container-custom">
         <div className="text-left mb-10">
           <div className="section-pre-title !justify-start"><span></span> THE ENGINEERING STANDARD</div>
           <h2 className="text-[2.2rem] md:text-[3rem] uppercase mb-0">Our Core Values</h2>
@@ -333,29 +333,6 @@ const AboutPage = () => {
               </div>
             </div>
           ))}
-        </div>
-      </section>
-
-      <section className="container-custom">
-        <div className="bg-white border border-border-light rounded-[4px] p-8 md:p-12 shadow-sm text-center">
-          <p className="font-mono text-[0.85rem] font-bold text-steel-light tracking-[2.5px] uppercase mb-8">
-            OFFICIALLY APPROVED VENDOR FOR MAJOR GOVERNMENT BODIES
-          </p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
-            {companyInfo.approvals.map((app) => (
-              <div
-                key={app}
-                className="bg-bg-pedestal border border-border-light py-5 px-4 rounded-[3px] flex flex-col items-center justify-center gap-1 shadow-xs"
-              >
-                <span className="font-display text-[1.9rem] font-black text-steel-dark tracking-[1px]">
-                  {app}
-                </span>
-                <span className="font-mono text-[0.66rem] font-bold text-accent uppercase tracking-[1px]">
-                  Verified Vendor
-                </span>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 

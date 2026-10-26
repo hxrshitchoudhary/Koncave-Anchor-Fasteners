@@ -137,7 +137,7 @@ const QuoteModal = ({ quoteData }) => {
                   <IconCheck size={18} className="text-accent shrink-0" /> NABL / IS 1608 Pull-Out & Tensile Reports Included
                 </li>
                 <li className="flex items-center gap-2.5 text-[0.88rem] text-[#CBD5E1]">
-                  <IconCheck size={18} className="text-accent shrink-0" /> Approved for NBCC, CPWD, PWD, RLDA & DMRC Projects
+                  <IconCheck size={18} className="text-accent shrink-0" /> 100% Batch Tested for Structural & Seismic Loads
                 </li>
                 <li className="flex items-center gap-2.5 text-[0.88rem] text-[#CBD5E1]">
                   <IconCheck size={18} className="text-accent shrink-0" /> Pan-India Dispatch from Rohtak, Haryana
@@ -293,7 +293,7 @@ const QuoteModal = ({ quoteData }) => {
                       name="message"
                       required
                       rows="4"
-                      placeholder="Specify required delivery timeline, authority approval documentation needed (CPWD/DMRC/NBCC), or custom sizes..."
+                      placeholder="Specify required delivery timeline, test documentation needed, or custom sizes..."
                       className={inputClass}
                     ></textarea>
                   </div>

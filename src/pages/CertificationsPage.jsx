@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
-import { companyInfo } from '../data.js';
-import { IconDownload, IconZoomIn, IconX } from '../components/Icons.jsx';
+import { IconDownload, IconZoomIn, IconX, IconShield } from '../components/Icons.jsx';
 
 const CertificationsPage = () => {
+  const [screenBlurred, setScreenBlurred] = useState(false);
   const [lightbox, setLightbox] = useState({
     isOpen: false,
     imageSrc: '',
@@ -18,14 +18,61 @@ const CertificationsPage = () => {
 
   const viewportRef = useRef(null);
 
+  // Anti-Screenshot & Screen-Capture Obfuscation
   useEffect(() => {
     const handleKeyDown = (e) => {
+      // Escape closes lightbox
       if (e.key === 'Escape' && lightbox.isOpen) {
         setLightbox((prev) => ({ ...prev, isOpen: false, zoom: 1, position: { x: 0, y: 0 } }));
       }
+
+      // Intercept PrintScreen key
+      if (e.key === 'PrintScreen') {
+        setScreenBlurred(true);
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(''); // Clear clipboard immediately
+        }
+        setTimeout(() => setScreenBlurred(false), 2000);
+      }
+
+      // Block Ctrl/Cmd + P (Print / Save as PDF)
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 'P')) {
+        e.preventDefault();
+      }
+
+      // Block Ctrl/Cmd + S (Save webpage / image)
+      if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) {
+        e.preventDefault();
+      }
+
+      // Block F12 and DevTools shortcuts
+      if (
+        e.key === 'F12' ||
+        ((e.ctrlKey || e.metaKey) && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) ||
+        ((e.ctrlKey || e.metaKey) && e.key.toUpperCase() === 'U')
+      ) {
+        e.preventDefault();
+      }
     };
+
+    // When window loses focus (e.g. Snipping Tool Win+Shift+S / macOS Cmd+Shift+4)
+    const handleWindowBlur = () => {
+      setScreenBlurred(true);
+    };
+
+    const handleWindowFocus = () => {
+      setScreenBlurred(false);
+    };
+
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener('blur', handleWindowBlur);
+    window.addEventListener('focus', handleWindowFocus);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('blur', handleWindowBlur);
+      window.removeEventListener('focus', handleWindowFocus);
+    };
   }, [lightbox.isOpen]);
 
   useEffect(() => {
@@ -108,6 +155,11 @@ const CertificationsPage = () => {
     setLightbox((prev) => ({ ...prev, isDragging: false }));
   };
 
+  const blockAction = (e) => {
+    e.preventDefault();
+    return false;
+  };
+
   const certificates = [
     {
       id: "quality",
@@ -139,9 +191,32 @@ const CertificationsPage = () => {
   ];
 
   return (
-    <div className="pt-navbar animate-fade-in bg-bg-main pb-24">
-      
-      {/* Clean, Elegant Header Banner */}
+    <div
+      className="pt-navbar animate-fade-in bg-bg-main pb-24 select-none relative"
+      onContextMenu={blockAction}
+    >
+      {/* Anti-Print Style Tag */}
+      <style>{`
+        @media print {
+          body * { visibility: hidden !important; }
+          .pt-navbar { display: none !important; }
+        }
+      `}</style>
+
+      {/* Screen Capture Blinding Curtain when Snipping Tool is triggered */}
+      {screenBlurred && (
+        <div className="fixed inset-0 z-[999999] bg-[#05080E] flex flex-col items-center justify-center text-white pointer-events-none p-6 text-center">
+          <IconShield size={48} className="text-accent mb-3 animate-pulse" />
+          <h2 className="font-display text-[1.8rem] uppercase text-white tracking-wide">
+            Protected Document View
+          </h2>
+          <p className="font-mono text-[0.85rem] text-[#94A3B8]">
+            Screen capture and external recording are restricted on certified documents.
+          </p>
+        </div>
+      )}
+
+      {/* Header Banner */}
       <section className="bg-steel-dark text-white py-12 md:py-16 border-b-4 border-accent blueprint-grid relative overflow-hidden">
         <div className="container-custom relative z-10 max-w-[840px] text-center mx-auto">
           <span className="section-pre-title text-accent !justify-center mb-2">
@@ -154,7 +229,7 @@ const CertificationsPage = () => {
             </span>
           </h1>
           <p className="text-[#94A3B8] text-[1rem] md:text-[1.08rem] leading-[1.6] max-w-[660px] mx-auto m-0">
-            {companyInfo.legalName} maintains uncompromising manufacturing standards. Review our verified ISO management certificates below for technical tenders and quality verification.
+            Koncave Anchor &amp; Fasteners Pvt. Ltd. maintains uncompromising manufacturing standards. Review our verified ISO management certificates below for technical tenders and quality verification.
           </p>
         </div>
       </section>
@@ -165,25 +240,49 @@ const CertificationsPage = () => {
           {certificates.map((cert) => (
             <div
               key={cert.id}
+              onContextMenu={blockAction}
               className="bg-white border border-border-light border-t-4 border-t-steel-dark rounded-[6px] shadow-sm flex flex-col justify-between overflow-hidden hover:border-t-accent hover:shadow-xl transition-all group h-full"
             >
-              {/* Portrait Certificate Display Container */}
+              {/* Protected Portrait Container with Diagonal Anti-Capture Watermark */}
               <div
                 onClick={() => openLightbox(cert)}
-                className="w-full aspect-[1/1.35] bg-[#0B101B] relative overflow-hidden border-b border-border-light flex items-center justify-center p-3 cursor-zoom-in group"
+                onContextMenu={blockAction}
+                onDragStart={blockAction}
+                className="w-full aspect-[1/1.35] bg-[#0B101B] relative overflow-hidden border-b border-border-light flex items-center justify-center p-3 cursor-zoom-in group select-none"
               >
                 <img
                   src={cert.image}
                   alt={cert.displayName}
-                  className="w-full h-full object-contain bg-white rounded-[2px] shadow-md transition-transform duration-500 group-hover:scale-103"
+                  draggable="false"
+                  onContextMenu={blockAction}
+                  onDragStart={blockAction}
+                  style={{ WebkitTouchCallout: 'none', userSelect: 'none' }}
+                  className="w-full h-full object-contain bg-white rounded-[2px] shadow-md transition-transform duration-500 group-hover:scale-103 pointer-events-none select-none"
                   onError={(e) => {
                     e.target.style.display = 'none';
                   }}
                 />
-                <div className="absolute top-4 left-4 bg-steel-dark/95 text-white font-mono text-[0.65rem] px-2.5 py-1 rounded-[2px] uppercase font-bold tracking-[1px] shadow-sm border border-white/15">
+
+                {/* Anti-Screenshot Diagonal Watermark Overlay */}
+                <div className="absolute inset-0 z-10 pointer-events-none flex flex-col justify-around opacity-[0.09] select-none rotate-[-28deg] scale-125">
+                  {[...Array(6)].map((_, i) => (
+                    <span key={i} className="font-mono text-[0.8rem] text-white font-black tracking-[4px] whitespace-nowrap text-center">
+                      KONCAVE INTERNAL VIEW ONLY // NOT FOR REPRODUCTION
+                    </span>
+                  ))}
+                </div>
+
+                {/* Click / Touch Shield */}
+                <div
+                  className="absolute inset-0 z-20 bg-transparent"
+                  onContextMenu={blockAction}
+                  onDragStart={blockAction}
+                />
+
+                <div className="absolute top-4 left-4 z-30 bg-steel-dark/95 text-white font-mono text-[0.65rem] px-2.5 py-1 rounded-[2px] uppercase font-bold tracking-[1px] shadow-sm border border-white/15 pointer-events-none">
                   VERIFIED ISO
                 </div>
-                <div className="absolute inset-0 bg-steel-dark/45 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
+                <div className="absolute inset-0 z-30 bg-steel-dark/45 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px] pointer-events-none">
                   <span className="bg-steel-dark text-white font-mono text-[0.75rem] font-bold px-3.5 py-2 rounded-[3px] border border-white/20 inline-flex items-center gap-1.5 shadow-xl">
                     <IconZoomIn size={16} className="text-accent" /> Inspect Certificate
                   </span>
@@ -204,21 +303,14 @@ const CertificationsPage = () => {
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-dashed border-border-subtle flex items-center justify-between gap-2.5 mt-auto">
+                <div className="pt-4 border-t border-dashed border-border-subtle flex items-center justify-end mt-auto">
                   <button
                     type="button"
                     onClick={() => openLightbox(cert)}
-                    className="btn btn-sm btn-outline-dark flex-1 justify-center"
+                    className="btn btn-sm btn-primary w-full justify-center"
                   >
-                    <IconZoomIn size={15} /> Zoom
+                    <IconZoomIn size={15} /> Inspect Official Certificate
                   </button>
-                  <a
-                    href={cert.image}
-                    download
-                    className="btn btn-sm btn-primary flex-1 justify-center"
-                  >
-                    <IconDownload size={15} /> Download
-                  </a>
                 </div>
               </div>
             </div>
@@ -247,23 +339,25 @@ const CertificationsPage = () => {
         </div>
       </section>
 
-      {/* Unified Full-Screen Zoom & Pan Lightbox via Portal */}
+      {/* Unified Zoom Modal with Anti-Capture Overlays */}
       {lightbox.isOpen &&
         createPortal(
           <div
-            className="fixed inset-0 z-[100000] bg-[#05080E]/92 backdrop-blur-md flex items-center justify-center p-4 md:p-6 animate-fade-in"
+            className="fixed inset-0 z-[100000] bg-[#05080E]/95 backdrop-blur-md flex items-center justify-center p-4 md:p-6 animate-fade-in select-none"
             onClick={closeLightbox}
+            onContextMenu={blockAction}
           >
             <div
               className="w-full max-w-[1200px] h-[90vh] bg-steel-dark border border-white/18 border-t-4 border-t-accent rounded-[4px] shadow-2xl flex flex-col overflow-hidden text-white blueprint-grid"
               onClick={(e) => e.stopPropagation()}
+              onContextMenu={blockAction}
             >
               <div className="flex justify-between items-center py-3.5 px-6 bg-[#06090F] border-b border-white/12 shrink-0">
                 <div>
                   <span className="font-mono text-[0.66rem] font-bold text-accent tracking-[1.2px] block">
-                    OFFICIAL ISO CERTIFICATION {lightbox.zoom > 1 ? "// (DRAG TO PAN)" : ""}
+                    PROTECTED ISO CERTIFICATE // VIEW ONLY {lightbox.zoom > 1 ? "(DRAG TO PAN)" : ""}
                   </span>
-                  <h3 className="text-white text-[1.35rem] uppercase m-0 leading-tight">{lightbox.title}</h3>
+                  <h3 className="text-white text-[1.15rem] sm:text-[1.35rem] uppercase m-0 leading-tight">{lightbox.title}</h3>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
@@ -305,6 +399,8 @@ const CertificationsPage = () => {
 
               <div
                 ref={viewportRef}
+                onContextMenu={blockAction}
+                onDragStart={blockAction}
                 className={`flex-1 relative overflow-hidden flex flex-col items-center justify-center p-6 bg-[radial-gradient(circle_at_center,#141D2D_0%,#090D14_100%)] select-none ${
                   lightbox.zoom > 1 ? (lightbox.isDragging ? 'cursor-grabbing' : 'cursor-grab') : 'cursor-default'
                 }`}
@@ -317,10 +413,21 @@ const CertificationsPage = () => {
                   src={lightbox.imageSrc}
                   alt={lightbox.title}
                   draggable="false"
-                  className="max-w-[90%] max-h-[72vh] object-contain bg-white p-2 rounded-[3px] shadow-2xl transition-transform duration-75 ease-out origin-center pointer-events-none"
+                  onContextMenu={blockAction}
+                  onDragStart={blockAction}
                   style={{
+                    WebkitTouchCallout: 'none',
+                    userSelect: 'none',
                     transform: `scale(${lightbox.zoom}) translate(${lightbox.position.x / lightbox.zoom}px, ${lightbox.position.y / lightbox.zoom}px)`
                   }}
+                  className="max-w-[90%] max-h-[72vh] object-contain bg-white p-2 rounded-[3px] shadow-2xl transition-transform duration-75 ease-out origin-center pointer-events-none select-none"
+                />
+
+                {/* Protective Invisible Shield */}
+                <div
+                  className="absolute inset-0 z-10 bg-transparent"
+                  onContextMenu={blockAction}
+                  onDragStart={blockAction}
                 />
               </div>
 
@@ -333,7 +440,6 @@ const CertificationsPage = () => {
           </div>,
           document.body
         )}
-
     </div>
   );
 };

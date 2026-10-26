@@ -1,11 +1,11 @@
 export const companyInfo = {
-  name: "Koncave",
-  legalName: "Koncave Anchor Fasteners Pvt. Ltd.",
+  name: "Koncave Anchor & Fasteners Pvt. Ltd.",
+  legalName: "Koncave Anchor & Fasteners Pvt. Ltd.",
   tagline: "High-Performance Anchoring and Fastening Solutions",
   address: "Village Ismaila, 11B Ismaila, Near Rana Batta, Tehsil Sampla, Rohtak, Haryana-124501, India",
   phones: ["9810395559", "9310784762"],
   email: "koncave11@outlook.com",
-  website: "koncavefasteners.com",
+  website: "koncave.co.in",
   initiative: "Make in India",
   certifications: "ISO 9001:2015 Certified",
   approvals: ["NBCC", "CPWD", "PWD", "RLDA", "DMRC"]

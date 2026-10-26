@@ -92,7 +92,7 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
     "IS 1608, P1:2022 TENSILE & PULL-OUT TESTED",
     "STAINLESS STEEL A2 (304) & A4 (316)",
     "ALKALINE ZINC PLATED (EUROPEAN STANDARD)",
-    "NBCC / CPWD / PWD / RLDA / DMRC APPROVED",
+    "100% BATCH QUALITY & LOAD VERIFIED",
     "ISO 9001:2015 CERTIFIED ROHTAK FACILITY",
     "HIGH-LOAD WEDGE, NYLON & DROP-IN ANCHORS"
   ];
@@ -110,8 +110,8 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
     },
     {
       icon: <IconAward size={28} className="text-accent" />,
-      title: "Govt & PSU Approved Vendor",
-      desc: "Trusted and officially registered supplier for premier national infrastructure bodies including NBCC, CPWD, PWD, RLDA, and DMRC."
+      title: "ISO 9001:2015 Certified Plant",
+      desc: "In-house cold forging, precision thread rolling, and alkaline zinc plating lines at our Rohtak manufacturing facility."
     },
     {
       icon: <IconCheck size={28} className="text-accent" />,
@@ -204,7 +204,7 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
                 </div>
               </div>
 
-              {/* Right Column: Minimalist Floating Telemetry Pills (Leaves Video Open!) */}
+              {/* Right Column: Minimalist Floating Telemetry Pills */}
               <div className="lg:col-span-5 hidden lg:flex flex-col items-end justify-start gap-3 pt-2">
                 <div className="bg-black/45 backdrop-blur-md border border-white/20 border-r-[3px] border-r-accent px-4 py-2.5 rounded-[4px] text-right font-mono shadow-xl transition-transform duration-500 hover:-translate-x-1">
                   <div className="flex items-center justify-end gap-2 text-[0.62rem] text-[#22C55E] font-bold tracking-[1px]">
@@ -217,8 +217,8 @@ const HomePage = ({ openQuoteModal, openInquiryModal }) => {
                 </div>
 
                 <div className="bg-black/45 backdrop-blur-md border border-white/20 border-r-[3px] border-r-white/60 px-4 py-2.5 rounded-[4px] text-right font-mono shadow-xl transition-transform duration-500 hover:-translate-x-1">
-                  <span className="block text-[0.6rem] text-[#CBD5E1] uppercase tracking-[1px]">APPROVED VENDOR FOR</span>
-                  <strong className="text-[0.82rem] text-white font-bold tracking-[0.5px]">NBCC • DMRC • CPWD • RLDA</strong>
+                  <span className="block text-[0.6rem] text-[#CBD5E1] uppercase tracking-[1px]">METALLURGY GRADES</span>
+                  <strong className="text-[0.82rem] text-white font-bold tracking-[0.5px]">SS 304 (A2) • SS 316 (A4) • CARBON STEEL</strong>
                 </div>
               </div>
 
