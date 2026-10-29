@@ -15,6 +15,15 @@ const certificates = [
     image: "/Certificates/quality-cert.jpg"
   },
   {
+    id: "quality-2",
+    title: "quality-cert2.jpg",
+    displayName: "ISO 9001:2015 — Quality Management System (II)",
+    category: "ISO 9001:2015 Standard",
+    issuer: "Universal Certification Services",
+    desc: "Certified quality assurance system covering high-tensile anchor manufacturing, batch testing, and inspection standards.",
+    image: "/Certificates/quality-cert2.jpg"
+  },
+  {
     id: "health",
     title: "health-cert.jpg",
     displayName: "ISO 45001:2018 — Occupational Health & Safety",
@@ -228,18 +237,18 @@ const CertificationsPage = () => {
       </section>
 
       <section className="container-custom py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch max-w-[1280px] mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 xl:gap-7 items-stretch max-w-[1380px] mx-auto">
           {certificates.map((cert) => (
             <div
               key={cert.id}
               onContextMenu={preventSave}
-              className="bg-white border border-border-light border-t-4 border-t-steel-dark rounded-[6px] shadow-sm flex flex-col justify-between overflow-hidden hover:border-t-accent hover:shadow-xl transition-all group h-full"
+              className="bg-white border border-border-light border-t-4 border-t-steel-dark rounded-[6px] shadow-sm flex flex-col justify-between overflow-hidden hover:border-t-accent hover:shadow-xl transition-all duration-300 group h-full"
             >
               <div
                 onClick={() => openLightbox(cert)}
                 onContextMenu={preventSave}
                 onDragStart={preventSave}
-                className="w-full aspect-[1/1.35] bg-[#0B101B] relative overflow-hidden border-b border-border-light flex items-center justify-center p-3 cursor-zoom-in group select-none"
+                className="w-full aspect-[1/1.38] bg-[#0B101B] relative overflow-hidden border-b border-border-light flex items-center justify-center p-3 cursor-zoom-in group select-none shrink-0"
               >
                 <img
                   src={cert.image}
@@ -248,7 +257,7 @@ const CertificationsPage = () => {
                   onContextMenu={preventSave}
                   onDragStart={preventSave}
                   style={{ WebkitTouchCallout: 'none', userSelect: 'none' }}
-                  className="w-full h-full object-contain bg-white rounded-[2px] shadow-md transition-transform duration-500 group-hover:scale-103 pointer-events-none select-none"
+                  className="w-full h-full object-contain bg-white rounded-[2px] shadow-md transition-transform duration-500 group-hover:scale-[1.03] pointer-events-none select-none"
                   onError={(e) => {
                     e.target.src = "https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=800&auto=format&fit=crop";
                   }}
@@ -258,25 +267,25 @@ const CertificationsPage = () => {
                   onContextMenu={preventSave}
                   onDragStart={preventSave}
                 />
-                <div className="absolute top-4 left-4 z-20 bg-steel-dark/95 text-white font-mono text-[0.65rem] px-2.5 py-1 rounded-[2px] uppercase font-bold tracking-[1px] shadow-sm border border-white/15 pointer-events-none">
+                <div className="absolute top-3.5 left-3.5 z-20 bg-steel-dark/95 text-white font-mono text-[0.62rem] px-2.5 py-1 rounded-[2px] uppercase font-bold tracking-[1px] shadow-sm border border-white/15 pointer-events-none">
                   VERIFIED ISO
                 </div>
                 <div className="absolute inset-0 z-20 bg-steel-dark/45 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px] pointer-events-none">
-                  <span className="bg-steel-dark text-white font-mono text-[0.75rem] font-bold px-3.5 py-2 rounded-[3px] border border-white/20 inline-flex items-center gap-1.5 shadow-xl">
-                    <IconZoomIn size={16} className="text-accent" /> Inspect Certificate
+                  <span className="bg-steel-dark text-white font-mono text-[0.72rem] font-bold px-3.5 py-2 rounded-[3px] border border-white/20 inline-flex items-center gap-1.5 shadow-xl">
+                    <IconZoomIn size={15} className="text-accent" /> Inspect Certificate
                   </span>
                 </div>
               </div>
 
-              <div className="p-6 md:p-7 flex flex-col flex-1 justify-between bg-white">
-                <div>
-                  <span className="font-mono text-[0.72rem] text-accent font-bold uppercase tracking-[1.2px] block mb-1.5">
+              <div className="p-5 xl:p-6 flex flex-col flex-1 justify-between bg-white">
+                <div className="flex flex-col flex-1">
+                  <span className="font-mono text-[0.68rem] text-accent font-bold uppercase tracking-[1.1px] block mb-1.5">
                     {cert.category}
                   </span>
-                  <h3 className="font-display text-[1.25rem] text-steel-dark uppercase mb-2.5 leading-[1.3]">
+                  <h3 className="font-display text-[1.12rem] xl:text-[1.18rem] text-steel-dark uppercase mb-2.5 leading-[1.3] min-h-[3.1rem]">
                     {cert.displayName}
                   </h3>
-                  <p className="text-text-secondary text-[0.9rem] leading-[1.6] mb-6">
+                  <p className="text-text-secondary text-[0.86rem] leading-[1.6] mb-5">
                     {cert.desc}
                   </p>
                 </div>
@@ -285,7 +294,7 @@ const CertificationsPage = () => {
                   <button
                     type="button"
                     onClick={() => openLightbox(cert)}
-                    className="btn btn-sm btn-primary w-full justify-center"
+                    className="btn btn-sm btn-primary w-full justify-center text-[0.76rem] py-2.5"
                   >
                     <IconZoomIn size={15} /> Inspect Official Certificate
                   </button>
